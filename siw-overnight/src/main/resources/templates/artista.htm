@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Artista</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+	<h1>Dettagli Artista</h1>
+	<div th:if="${artista}">
+		<h1 th:text="${artista.nome}">Nome Artista</h1>
+		<div>Anno di nascita: <span th:text="'(' + ${artista.dataNascita} + ')'">2000</span></div>
+        <div>Descrizione: <span th:text="'(' + ${artista.descrizione} + ')'">2000</span></div>
+		<span><img width="30%" th:src="${artista.urlImmagine}" /></span>
+	</div>
+	<div th:unless="${artista}">Non esiste</div>
+</body>
+
+</html>
+
+
+
+<!--mancano:
+    private List<Evento> eventi;--> 
+    
