@@ -95,7 +95,4 @@ public class Locale {
     }
     /*FINE EQUALS & HASHCODE*/
 
-    
-
-    
 }

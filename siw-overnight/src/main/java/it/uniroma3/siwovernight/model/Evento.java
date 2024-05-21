@@ -26,14 +26,14 @@ public class Evento {
     @DateTimeFormat(pattern = "dd-MM-YYYY")
     private LocalDate dataEvento;
     private String descr; 
-    @ManyToMany(mappedBy = "evento")
-    private List<Artista> artitsti;
+    @ManyToMany(mappedBy = "eventi")
+    private List<Artista> artisti;
     private float prezzo;
     @DateTimeFormat(pattern = "hh:mm")
     private LocalTime orarioInizio;
     /*FINE ATTRIBUTI EVENTO*/
 
-
+    
     /*GETTER & SETTER*/
     public Long getId() {
         return id;
@@ -65,11 +65,11 @@ public class Evento {
     public void setDescr(String descr) {
         this.descr = descr;
     }
-    public List<Artista> getArtitsti() {
-        return artitsti;
+    public List<Artista> getArtisti() {
+        return artisti;
     }
-    public void setArtitsti(List<Artista> artitsti) {
-        this.artitsti = artitsti;
+    public void setArtisti(List<Artista> artisti) {
+        this.artisti = artisti;
     }
     public float getPrezzo() {
         return prezzo;
@@ -85,7 +85,7 @@ public class Evento {
     }
     /*FINE GETTER & SETTER*/
 
-
+    
     /*EQUALS & HASHCODE*/
     @Override
     public int hashCode() {
