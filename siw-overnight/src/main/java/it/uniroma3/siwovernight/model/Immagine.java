@@ -1,0 +1,92 @@
+package it.uniroma3.siwovernight.model;
+
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Objects;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Immagine {
+
+    /*ATTRIBUTI*/
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(length = 2000)
+    private byte[] imageData;
+    
+    private String fileName;
+    /*FINE ATTRIBUTI*/
+
+    
+    /*HASHCODE & EQUALS*/
+    @Override
+    public int hashCode() {
+        return Objects.hash(fileName, imageData);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Immagine other = (Immagine) obj;
+        if (!Arrays.equals(imageData, other.imageData))
+            return false;
+        if (fileName == null) {
+            if (other.fileName != null)
+                return false;
+        } else if (!fileName.equals(other.fileName))
+            return false;
+        return true;
+    }
+    /*FINE HASHCODE & EQUALS*/
+
+
+    /*METODI PER LE FOTO*/ 
+    public String getFormat(){
+        return getFileName().substring(1+getFileName().lastIndexOf('.'));
+    }
+
+    public String getBase64(){
+        return Base64.getEncoder().encodeToString(this.imageData);
+    }
+
+    /*GETTER & SETTER*/
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    /*FINE GETTER & SETTER*/
+    
+    
+}
+

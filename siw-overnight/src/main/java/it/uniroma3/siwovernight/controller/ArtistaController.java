@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siwovernight.model.Artista;
 import it.uniroma3.siwovernight.service.ArtistaService;
@@ -54,12 +53,6 @@ public class ArtistaController {
 	 @GetMapping("/formSearchArtisti")
 	 public String formSearchArtisti() {
 	    return "formSearchArtisti.html";
-	 }
-	 
-	 @PostMapping("/searchArtisti")
-	 public String searchArtisti(Model model, @RequestParam Integer year) {
-		 model.addAttribute("artisti", this.artistaService.findByYear(year));
-		 return "foundArtisti.html";
 	 }
 
 }

@@ -1,13 +1,17 @@
 package it.uniroma3.siwovernight.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 
 @Entity
 public class Locale {
@@ -16,13 +20,17 @@ public class Locale {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     private String nomeLocale;
     private String indirizzo; //-> si potrebbe trasformare in una classe (nome, civico, città)
     private String descrizione;
-    @OneToMany(mappedBy = "locale")
-    private List<Evento> eventi;
+                                //tutte le operazioni si propagano //gli eventi non vengono caricati dal database finchè non sono necessari
+    @OneToMany(mappedBy = "locale", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("dataEvento ASC")  //così quando prendo gli eventi dal database saranno caricati in ordine crescente rispetto alla dataEvento
+    private List<Evento> eventi = new ArrayList<>();
     /*FINE ATTRIBUTI LOCALE*/
 
+    
     /*GETTER & SETTER*/
     public Long getId() {
         return id;
@@ -55,6 +63,7 @@ public class Locale {
         this.eventi = eventi;
     }
     /*FINE GETTER & SETTER*/
+
 
     /*EQUALS & HASHCODE*/
     @Override
@@ -95,4 +104,18 @@ public class Locale {
     }
     /*FINE EQUALS & HASHCODE*/
 
+
+    /*COSTRUTTORI*/
+    public Locale(){
+
+    }
+
+    public Locale(String nome, String indirizzo, String descrizione, List<Evento> eventi){
+        this.nomeLocale = nome;
+        this.indirizzo = indirizzo;
+        this.descrizione = descrizione;
+        this.eventi = eventi;
+    }
+    //TODO toString()
+    /*FINE COSTRUTTORI*/
 }

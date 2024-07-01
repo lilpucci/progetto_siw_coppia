@@ -1,23 +1,36 @@
 package it.uniroma3.siwovernight.model;
 
+import java.util.Objects;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Prenotazione {
+    
+    /*ATTRIBUTI*/
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    //questi due si potrebbero togliere
     private String descrizione;
     private String url;
-    @ManyToOne
-    private Evento evento;
-    @ManyToOne
-    private Utente utente;
     
+    @ManyToOne
+    @JoinColumn(name = "evento_id")
+    private Evento evento;
+    
+    @ManyToOne 
+    private Utente utente;
+    /*FINE ATTRIBUTI*/
+
+
+    /*GETTER & SETTER*/
     public Long getId() {
         return id;
     }
@@ -48,16 +61,13 @@ public class Prenotazione {
     public void setUtente(Utente utente) {
         this.utente = utente;
     }
+    /*FINE GETTER & SETTER*/
+
+
+    /*EQUALS & HASHCODE*/
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((descrizione == null) ? 0 : descrizione.hashCode());
-        result = prime * result + ((url == null) ? 0 : url.hashCode());
-        result = prime * result + ((evento == null) ? 0 : evento.hashCode());
-        result = prime * result + ((utente == null) ? 0 : utente.hashCode());
-        return result;
+        return Objects.hash(utente,evento);
     }
     @Override
     public boolean equals(Object obj) {
@@ -95,7 +105,20 @@ public class Prenotazione {
         return false;
         return true;
     }
+    /*FINE EQUALS & HASHCODE*/
+
+
+    /*COSTRUTTORI*/
+    public Prenotazione() {
     
+    }
     
+    public Prenotazione(String descrizione, String url, Evento evento, Utente utente){
+        this.descrizione = descrizione;
+        this.url = url;
+        this.evento = evento;
+        this.utente = utente;
+    }
+    /*FINE COSTRUTTORI*/
     
 }

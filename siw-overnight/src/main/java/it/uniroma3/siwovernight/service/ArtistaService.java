@@ -1,6 +1,8 @@
 
 package it.uniroma3.siwovernight.service;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,21 +15,42 @@ public class ArtistaService {
     @Autowired 
     private ArtistaRepository artistaRepository; 
 
-    public Artista findById(Long id) {
-        return artistaRepository.findById(id).get();
+    /*RICERCHE */
+    public Artista findById(Long id){
+        return this.artistaRepository.findById(id).get();
     }
 
-    public Iterable<Artista> findAll() {
-        return artistaRepository.findAll();
+    public Iterable<Artista> findAll(){
+        return this.artistaRepository.findAll();
     }
 
-    public void save(Artista artista) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    public Iterable<Artista> findByNome(String nome){
+        return this.artistaRepository.findByNome(nome);
     }
 
-    public Object findByYear(Integer year) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByYear'");
+    public Artista findByNomeAndCognome(String nome, String cognome){
+        return this.artistaRepository.findByNomeAndCognome(nome,cognome);
     }
+
+    public Iterable<Artista> findByDataNascita(int year){
+        LocalDate dataNascita = LocalDate.of(year,1,1);
+        return this.artistaRepository.findByDataNascitaAfter(dataNascita);
+    }
+    /*FINE RICERCHE */
+
+    /*SALVATAGGIO */
+    public Artista save(Artista Artista){
+        return this.artistaRepository.save(Artista);
+    }
+    /*FINE SALVATAGGIO */
+
+    /*CANCELLAZIONE */
+    public void deleteById(Long id){
+        this.artistaRepository.deleteById(id);
+    }
+
+    public void delete(Artista Artista){
+        this.artistaRepository.delete(Artista);
+    }
+    /*FINE CANCELLAZIONE */
 }    

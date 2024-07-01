@@ -17,9 +17,12 @@ public class Utente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @DateTimeFormat(pattern = "dd-MM-YYYY")
     private LocalDate dataNascita;
+
     private String username;
+    
     private String password;
     /*FINE ATTRIBUTI UTENTE*/
 

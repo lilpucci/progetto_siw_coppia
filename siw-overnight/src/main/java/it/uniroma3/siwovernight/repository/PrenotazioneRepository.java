@@ -8,5 +8,6 @@ import it.uniroma3.siwovernight.model.Prenotazione;
 @Repository
 public interface PrenotazioneRepository  extends CrudRepository<Prenotazione,Long> {
 
+    //non mi vengono in mente particolari metodi sulle prenotazioni
     
 }

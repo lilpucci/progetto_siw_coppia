@@ -1,17 +1,23 @@
 package it.uniroma3.siwovernight.model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
+//import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Evento {
@@ -20,17 +26,31 @@ public class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     private String titoloEvento;
-    @ManyToOne
-    private Locale locale;
+    private float prezzo;
+    private String descr; 
+    
     @DateTimeFormat(pattern = "dd-MM-YYYY")
     private LocalDate dataEvento;
-    private String descr; 
-    @ManyToMany(mappedBy = "eventi")
-    private List<Artista> artisti;
-    private float prezzo;
-    @DateTimeFormat(pattern = "hh:mm")
-    private LocalTime orarioInizio;
+    
+    //@DateTimeFormat(pattern = "hh:mm")
+    //private LocalTime orarioInizio;
+
+    @ManyToOne
+    @JoinColumn(name = "locale_id")
+    private Locale locale;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "evento_artista",
+        joinColumns = @JoinColumn(name = "evento_id"),
+        inverseJoinColumns = @JoinColumn(name = "artista_id")
+    )
+    private Set<Artista> artisti = new HashSet<>();
+
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
+    private List<Prenotazione> prenotazioni;
     /*FINE ATTRIBUTI EVENTO*/
 
     
@@ -65,10 +85,10 @@ public class Evento {
     public void setDescr(String descr) {
         this.descr = descr;
     }
-    public List<Artista> getArtisti() {
+    public Set<Artista> getArtisti() {
         return artisti;
     }
-    public void setArtisti(List<Artista> artisti) {
+    public void setArtisti(Set<Artista> artisti) {
         this.artisti = artisti;
     }
     public float getPrezzo() {
@@ -77,11 +97,17 @@ public class Evento {
     public void setPrezzo(float prezzo) {
         this.prezzo = prezzo;
     }
-    public LocalTime getOrarioInizio() {
-        return orarioInizio;
+    //public LocalTime getOrarioInizio() {
+    //    return orarioInizio;
+    //}
+    //public void setOrarioInizio(LocalTime orarioInizio) {
+    //    this.orarioInizio = orarioInizio;
+    //}
+    public List<Prenotazione> getPrenotazioni() {
+        return prenotazioni;
     }
-    public void setOrarioInizio(LocalTime orarioInizio) {
-        this.orarioInizio = orarioInizio;
+    public void setPrenotazioni(List<Prenotazione> prenotazioni) {
+        this.prenotazioni = prenotazioni;
     }
     /*FINE GETTER & SETTER*/
 
@@ -124,5 +150,21 @@ public class Evento {
     }
     /*FINE EQUALS & HASHCODE*/
 
+    
+    /*COSTRUTTORI*/
+    public Evento() {
+    }
+
+    public Evento(String titoloEvento, String descr, float prezzo, LocalDate dataEvento, /*LocalTime orario,*/ Locale locale, Set<Artista> artisti){
+        this.titoloEvento = titoloEvento;
+        this.descr = descr;
+        this.prezzo = prezzo;
+        this.dataEvento = dataEvento;
+        //this.orarioInizio = orario;
+        this.locale = locale;
+        this.artisti = artisti;
+    }
+    //TODO toString()
+    /*FINE COSTRUTTORI*/
     
 }

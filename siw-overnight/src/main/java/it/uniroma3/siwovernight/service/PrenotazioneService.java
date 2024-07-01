@@ -4,7 +4,6 @@ package it.uniroma3.siwovernight.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import it.uniroma3.siwovernight.model.Prenotazione;
 import it.uniroma3.siwovernight.repository.PrenotazioneRepository;
 
@@ -14,21 +13,30 @@ public class PrenotazioneService {
     @Autowired 
     private PrenotazioneRepository prenotazioneRepository; 
 
-    public Prenotazione findById(Long id) {
-        return prenotazioneRepository.findById(id).get();
+    /*RICERCHE */
+    public Prenotazione findById(Long id){
+        return this.prenotazioneRepository.findById(id).get();
     }
 
-    public Iterable<Prenotazione> findAll() {
-        return prenotazioneRepository.findAll();
+    public Iterable<Prenotazione> findAll(){
+        return this.prenotazioneRepository.findAll();
+    }
+    /*FINE RICERCHE */
+
+    /*SALVATAGGIO */
+    public Prenotazione save(Prenotazione Prenotazione){
+        return this.prenotazioneRepository.save(Prenotazione);
+    }
+    /*FINE SALVATAGGIO */
+
+    /*CANCELLAZIONE */
+    public void deleteById(Long id){
+        this.prenotazioneRepository.deleteById(id);
     }
 
-    public void save(Prenotazione prenotazione) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    public void delete(Prenotazione Prenotazione){
+        this.prenotazioneRepository.delete(Prenotazione);
     }
-
-    public Object findByYear(Integer year) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByYear'");
-    }
+    /*FINE CANCELLAZIONE */
+    
 }    

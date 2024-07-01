@@ -12,6 +12,7 @@ public class EventoService {
     @Autowired
     private EventoRepository eventoRepository;
 
+    /*RICERCHE */
     public Evento findById(Long id){
         return eventoRepository.findById(id).get();
     }
@@ -20,5 +21,29 @@ public class EventoService {
         return eventoRepository.findAll();
     }
 
+    public Evento findByNomeEvento(String nome){
+        return this.eventoRepository.findByTitoloEvento(nome);
+    }
+
+    public Iterable<Evento> findByArtista(String nomeArtista){
+        return this.eventoRepository.findByArtista(nomeArtista);
+    }
+    /*FINE RICERCHE */
+
+    /*SALVATAGGIO */
+    public Evento save(Evento Evento){
+        return eventoRepository.save(Evento);
+    }
+    /*FINE SALVATAGGIO */
+
+    /*CANCELLAZIONE */
+    public void deleteById(Long id){
+        this.eventoRepository.deleteById(id);
+    }
+
+    public void delete(Evento Evento){
+        this.eventoRepository.delete(Evento);
+    }
+    /*FINE CANCELLAZIONE */
     
 }

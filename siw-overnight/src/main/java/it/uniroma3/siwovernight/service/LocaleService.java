@@ -12,11 +12,38 @@ public class LocaleService {
     @Autowired
     private LocaleRepository localeRepository;
 
+    /*RICERCHE */
     public Locale findById(Long id){
-        return localeRepository.findById(id).get();
+        return this.localeRepository.findById(id).get();
     }
 
     public Iterable<Locale> findAll(){
-        return localeRepository.findAll();
+        return this.localeRepository.findAll();
     }
+
+    public Locale findByNomeLocale(String nome){
+        return this.localeRepository.findByNomeLocale(nome);
+    }
+
+    public Locale findByIndirizzo(String indirizzo){
+        return this.localeRepository.findByIndirizzo(indirizzo);
+    }
+    /*FINE RICERCHE */
+
+    /*SALVATAGGIO */
+    public Locale save(Locale locale){
+        return this.localeRepository.save(locale);
+    }
+    /*FINE SALVATAGGIO */
+
+    /*CANCELLAZIONE */
+    public void deleteById(Long id){
+        this.localeRepository.deleteById(id);
+    }
+
+    public void delete(Locale locale){
+        this.localeRepository.delete(locale);
+    }
+    /*FINE CANCELLAZIONE */
+
 }

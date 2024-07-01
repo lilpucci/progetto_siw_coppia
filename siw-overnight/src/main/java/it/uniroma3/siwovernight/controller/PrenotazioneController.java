@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siwovernight.model.Prenotazione;
 import it.uniroma3.siwovernight.service.PrenotazioneService;
@@ -56,10 +55,6 @@ public class PrenotazioneController {
 	    return "formSearchPrenotazioni.html";
 	 }
 	 
-	 @PostMapping("/searchPrenotazioni")
-	 public String searchPrenotazioni(Model model, @RequestParam Integer year) {
-		 model.addAttribute("prenotazioni", this.prenotazioneService.findByYear(year));
-		 return "foundPrenotazioni.html";
-	 }
+	 
 
 }
