@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SiwOvernightApplication<siw-overnight>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "it.uniroma3.siwovernight.SiwOvernightApplication",
+            "projectName": "siw-overnight",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

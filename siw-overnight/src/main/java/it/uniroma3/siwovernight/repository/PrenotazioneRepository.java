@@ -1,9 +1,13 @@
 package it.uniroma3.siwovernight.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import it.uniroma3.siwovernight.model.Prenotazione;
 
-public interface PrenotazioneRepository extends CrudRepository<Prenotazione,Long>{
+@Repository
+public interface PrenotazioneRepository  extends CrudRepository<Prenotazione,Long> {
+
+    //non mi vengono in mente particolari metodi sulle prenotazioni
     
 }

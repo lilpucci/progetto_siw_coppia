@@ -1,3 +1,4 @@
+
 package it.uniroma3.siwovernight.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siwovernight.model.Prenotazione;
 import it.uniroma3.siwovernight.service.PrenotazioneService;
@@ -19,9 +19,8 @@ public class PrenotazioneController {
 	PrenotazioneService prenotazioneService;
 	
 	
-	
-	//risponde a una GET HTTP che avrÃ  un URL del tipo /movie/1231
-	@GetMapping("pPrenotazione/{id}")//senza s
+	//risponde a una GET HTTP che avrÃƒ  un URL del tipo /movie/1231
+	@GetMapping("Prenotazione/{id}")//senza s
 	public String getPrenotazione(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("prenotazione", this.prenotazioneService.findById(id));
 		return "prenotazione.html";
@@ -56,10 +55,6 @@ public class PrenotazioneController {
 	    return "formSearchPrenotazioni.html";
 	 }
 	 
-	 @PostMapping("/searchPrenotazioni")
-	 public String searchPrenotazioni(Model model, @RequestParam Integer year) {
-		 model.addAttribute("prenotazioni", this.prenotazioneService.findByYear(year));
-		 return "foundPrenotazioni.html";
-	 }
+	 
 
 }

@@ -1,31 +1,49 @@
 package it.uniroma3.siwovernight.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 
 @Entity
 public class Artista {
 
+    /*ATTRIBUTI ARTISTA*/
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank
     private String nome;
-    private String descrizione;
-    private String urlImmagine;
+    @NotBlank
+    private String cognome;
+    
+    @ElementCollection
+    private List<Immagine> immagini;
+    
+    
+    @Past
     @DateTimeFormat(pattern="dd-MM_yyyy")
     private LocalDate dataNascita;
     
-    @ManyToMany
-    private List<Evento> eventi;
-    
+    @ManyToMany(mappedBy = "artisti")
+    private Set<Evento> eventi = new HashSet<>();
+    /*FINE ATTRIBUTI ARTISTA*/
+
+
+    /*GETTERS & SETTERS*/
     public Long getId() {
         return id;
     }
@@ -38,17 +56,17 @@ public class Artista {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public String getDescrizione() {
-        return descrizione;
+    public String getCognome() {
+        return cognome;
     }
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
     }
-    public String getUrlImmagine() {
-        return urlImmagine;
+    public List<Immagine> getImmagini() {
+        return immagini;
     }
-    public void setUrlImmagine(String urlImmagine) {
-        this.urlImmagine = urlImmagine;
+    public void setImmagini(List<Immagine> immagini) {
+        this.immagini = immagini;
     }
     public LocalDate getDataNascita() {
         return dataNascita;
@@ -56,16 +74,19 @@ public class Artista {
     public void setDataNascita(LocalDate dataNascita) {
         this.dataNascita = dataNascita;
     }
+    public Set<Evento> getEventi() {
+        return eventi;
+    }
+    public void setEventi(Set<Evento> eventi) {
+        this.eventi = eventi;
+    }
+    /*FINE GETTERS & SETTERS*/
+
+
+    /*EQUALS & HASHCODE*/
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-        result = prime * result + ((descrizione == null) ? 0 : descrizione.hashCode());
-        result = prime * result + ((urlImmagine == null) ? 0 : urlImmagine.hashCode());
-        result = prime * result + ((dataNascita == null) ? 0 : dataNascita.hashCode());
-        return result;
+        return Objects.hash(nome,cognome,dataNascita);
     }
     @Override
     public boolean equals(Object obj) {
@@ -76,25 +97,15 @@ public class Artista {
         if (getClass() != obj.getClass())
             return false;
         Artista other = (Artista) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
         if (nome == null) {
             if (other.nome != null)
                 return false;
         } else if (!nome.equals(other.nome))
             return false;
-        if (descrizione == null) {
-            if (other.descrizione != null)
+        if (cognome == null) {
+            if (other.cognome != null)
                 return false;
-        } else if (!descrizione.equals(other.descrizione))
-            return false;
-        if (urlImmagine == null) {
-            if (other.urlImmagine != null)
-                return false;
-        } else if (!urlImmagine.equals(other.urlImmagine))
+        } else if (!cognome.equals(other.cognome))
             return false;
         if (dataNascita == null) {
             if (other.dataNascita != null)
@@ -103,6 +114,41 @@ public class Artista {
             return false;
         return true;
     }
+    /*FINE EQUALS & HASHCODE*/
 
+
+    /*COSTRUTTORI*/
+    public Artista() {
     
+    }
+
+    public Artista(String nome, String cognome, LocalDate dataNascita, List<Immagine> immagini){
+        this.nome = nome;
+        this.cognome = cognome;
+        this.dataNascita = dataNascita;
+        this.immagini = immagini;
+    }
+
+    @Override
+    public String toString() {
+        return "Artista: " + nome+ " " + cognome;
+    }
+
+    /*FINE COSTRUTTORI*/
+    
+    /*METODI PER LE IMMAGINI*/
+    public Immagine getFirstImmagine(){
+        return this.immagini.get(0);
+    } 
+
+    public List<Immagine> getImmaginiDopoFirst(){
+        try {
+            return this.immagini.subList(1, this.immagini.size());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+  
+
 }
+    
