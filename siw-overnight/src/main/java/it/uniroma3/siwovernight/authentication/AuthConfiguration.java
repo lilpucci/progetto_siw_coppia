@@ -29,9 +29,9 @@ public class AuthConfiguration{
         auth.jdbcAuthentication()
             .dataSource(this.dataSource)
             //query per recuperare username e ruolo
-            .authoritiesByUsernameQuery("SELECT username, role FROM credentials WHERE username=?")
+            .authoritiesByUsernameQuery("SELECT username, role FROM credenziali WHERE username=?")
             //query per username e password. Il flag boolean flag specifica se l'utente user Ã¨ abilitato o no (va sempre a true)
-            .usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credentials WHERE username=?");
+            .usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credenziali WHERE username=?");
     }
 
     @Bean

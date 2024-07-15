@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dettaglio Evento</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+    <div class="logo-container">
+        <a href="/"><img src="/images/logo-siwovernight.png" class="logo" /></a>
+    </div>
+
+    <div class="wrapper">
+        <!-- Immagine dell'evento -->
+        <div th:if="${evento.immagini}">
+            <img th:if="${evento.immagini.size() > 0}" 
+                 th:src="'data:image/jpeg;base64,' + ${evento.immagini.get(0).getBase64()}" 
+                 class="evento-img"/>
+        </div>
+
+        <!-- Dettagli dell'evento -->
+        <div th:if="${evento != null}">
+            <h1 th:text="${evento.titoloEvento}">Titolo Evento</h1>
+            <div class="message">
+                Descrizione: <span th:text="${evento.descr}">Descrizione</span>
+            </div>
+            <div class="message">
+                Prezzo: <span th:text="${evento.prezzo}">Prezzo</span>
+            </div>
+            <div class="message">
+                Data Evento: <span th:text="${#dates.format(evento.dataEvento, 'dd-MM-yyyy')}">Data Evento</span>
+            </div>
+        </div>
+
+        <!-- Artisti dell'evento -->
+        <div>
+            <h3>Artisti</h3>
+            <ul class="evento-list">
+                <li class="evento-item" th:each="artista : ${evento.artisti}">
+                    <span th:text="${artista.nome}">Nome Artista</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Locale dell'evento -->
+        <div>
+            <h3>Locale</h3>
+            <p class="message" th:text="${evento.locale.nome}">Nome Locale</p>
+        </div>
+
+        <!-- Messaggio per evento non trovato -->
+        <div class="message" th:if="${evento == null}">Evento non trovato</div>
+
+        <!-- Link per aggiornare l'evento -->
+        <div class="navigation">
+            <a th:href="@{/admin/editEvento/{id}(id=${evento.id})}">Aggiorna Evento</a>
+        </div>
+
+        <!-- Link per tornare alla lista degli eventi -->
+        <div class="navigation">
+            <a th:href="@{/eventi}">Torna alla lista degli eventi</a>
+        </div>
+
+        <!-- Form per eliminare l'evento -->
+        <form th:action="@{/admin/deleteEvento/{id}(id=${evento.id})}" method="post" class="navigation">
+            <input type="hidden" name="_method" value="delete"> <!-- Simula DELETE -->
+            <button type="submit">Elimina Evento</button>
+        </form>
+
+        <!-- Link per tornare alla lista degli eventi (duplicato, puoi rimuoverlo se non necessario) -->
+        <div class="navigation">
+            <a th:href="@{/eventi}">Torna alla lista degli eventi</a>
+        </div>
+    </div>
+</body>
+</html>

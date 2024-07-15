@@ -1,14 +1,17 @@
 package it.uniroma3.siwovernight.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Utente {
@@ -24,7 +27,12 @@ public class Utente {
     private String nome;
     
     private String cognome;
-    
+
+    @ElementCollection
+    private List<Immagine> immagini;
+   
+    @OneToOne(mappedBy = "utente")
+    private Credenziali credenziali;
     /*FINE ATTRIBUTI UTENTE*/
 
 
@@ -47,13 +55,21 @@ public class Utente {
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
-    /*FINE GETTER & SETTER*/
+ 
     public String getNome() {
         return nome;
     }
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public List<Immagine> getImmagini() {
+        return immagini;
+    }
+    public void setImmagini(List<Immagine> immagini) {
+        this.immagini = immagini;
+    }
+    /*FINE GETTER & SETTER*/
 
     /*EQUALS & HASHCODE*/
     @Override
@@ -88,7 +104,24 @@ public class Utente {
     
     /*FINE EQUALS & HASHCODE*/
 
+    /*METODI PER LE IMMAGINI*/
+    public Immagine getFirstImage(){
+        return this.immagini.get(0);
+    } 
 
+    public List<Immagine> getImmaginiDopoFirst(){
+        try {
+            return this.immagini.subList(1, this.immagini.size());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public Credenziali getCredenziali() {
+        return credenziali;
+    }
+    public void setCredenziali(Credenziali credenziali) {
+        this.credenziali = credenziali;
+    }
 
 
 }

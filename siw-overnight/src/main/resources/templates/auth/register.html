@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="wrapper">
-    <form th:action="@{/register}" method="post" enctype="multipart/form-data" >
+    <form th:action="@{/register}" method="post" enctype="multipart/form-data" th:object="${utente}">
       <h2>Register</h2>
       <div class="input-field">
         <input type="text" th:field="${credenziali.username}" required>
@@ -18,16 +18,16 @@
         <input type="password" th:field="${credenziali.password}" required>
         <label for="password">Password</label>
       </div>
-      <div class="input-field">
-        <input type="text" th:field="${utente.nome}" required>
+      <div class="input-field" th:object="${utente}">
+        <input type="text" th:field="*{nome}" required>
         <label for="nome">Nome</label>
       </div>
       <div class="input-field">
-        <input type="text" th:field="${utente.cognome}" required>
+        <input type="text" th:field="*{cognome}" required>
         <label for="cognome">Cognome</label>
       </div>
       <div class="input-field">
-        <input type="date" th:field="${utente.dataNascita}" required>
+        <input type="date" th:field="*{dataNascita}" required>
         <label for="dataNascita">Data di nascita</label>
       </div>
       <div class="input-field">
