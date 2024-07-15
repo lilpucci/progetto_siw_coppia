@@ -10,7 +10,7 @@
     
     <!--    QUI DEVO GESTIRE LE FOTO
     <div th:if="${cuoco.immagini}">
-        <img th:if="${cuoco.getFirstImmagine() != null}" th:src="'data:image/jpeg;base64,' + ${cuoco.getFirstImmagine().getBase64()}" width="30%"/>
+
     </div>  -->
     
     <!--ATTRIBUTI DEL LOCALE-->
@@ -55,7 +55,7 @@
     <div>
         <a th:href="@{/locali}">torna alla lista dei locali</a>    
     </div>
-    
+
 </body>
 
 </html>

@@ -70,6 +70,11 @@
         <div class="navigation">
             <a th:href="@{/eventi}">Torna alla lista degli eventi</a>
         </div>
+
+        <!-- Cliccando qui vado alla form per prenotarmi a questo evento -->
+         <div class="navigation" th:if="${userDetails}"> <!-- se ci sono gli userDetail sei loggato -> quindi registrato -->
+            <a th:href="@{/prenotaEvento/{id}(id=${evento.id})}">Prenotati per questo evento</a>
+         </div>
     </div>
 </body>
 </html>

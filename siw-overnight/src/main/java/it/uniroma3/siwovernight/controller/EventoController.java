@@ -54,7 +54,7 @@ public class EventoController extends GlobalController {
         return "eventi.html";
     }
 
-    /*EVENTI CON QUELL'ARTISTA*/  //da testare
+    /*EVENTI CON QUELL'ARTISTA*/  //TODO da rendere coerente con le altre ricerche
     @GetMapping("/eventi/artista/{id}")
     public String getEventiArtista(Model model, @PathVariable("id") Long id_art){
         //trovo il nome dell'artista e poi aggiungo al modello gli eventi a cui partecipa

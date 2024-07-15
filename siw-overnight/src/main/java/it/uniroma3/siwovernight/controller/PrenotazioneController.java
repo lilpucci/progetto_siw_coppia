@@ -9,51 +9,58 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.siwovernight.model.Evento;
 import it.uniroma3.siwovernight.model.Prenotazione;
+import it.uniroma3.siwovernight.model.Utente;
+import it.uniroma3.siwovernight.service.EventoService;
 import it.uniroma3.siwovernight.service.PrenotazioneService;
 
+
+
 @Controller
-public class PrenotazioneController {
+public class PrenotazioneController extends GlobalController {
 	
 	@Autowired
-	PrenotazioneService prenotazioneService;
-	
-	
-	//risponde a una GET HTTP che avrÃƒ  un URL del tipo /movie/1231
-	@GetMapping("Prenotazione/{id}")//senza s
-	public String getPrenotazione(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("prenotazione", this.prenotazioneService.findById(id));
-		return "prenotazione.html";
-	}//parametro id, viene convertito in Long e passato come parametro
-	
-	
-	@GetMapping("/prenotazione")//senza s
-	public String showPrenotazioni(Model model) {
-		model.addAttribute("prenotazioni", this.prenotazioneService.findAll());
-		return "artisti.html"; //verificato: qua la s ce va
-		
-	}
-	//ci da la lista di tutti i film
-	//e la inserisce nel modello passato per parametro
+	private PrenotazioneService prenotazioneService;
 
+	@Autowired
+	private EventoService eventoService;
 	
-	@GetMapping("/formNewPrenotazione")
-	public String formNewPrenotazione(Model model) {
-		model.addAttribute("Prenotazione", new Prenotazione());
-		return "formNewPrenotazione.html";
+
+	//TODO da testare se funziona la prenotazione
+	/*PORTA AL FORM PER LA NUOVA PRENOTAZIONE*/
+	@GetMapping("/prenotaEvento/{id}")
+	public String getNewPrenotazione(@PathVariable("id") Long id_evento, Model model) {
+
+	//in teoria è inutile perchè se non sei loggato non
+	//viene mostrato il link nel template con il th:if
+	if(getCredenziali().getUtente() == null){
+		return "errorPage.html";
 	}
-	
-	
-	@PostMapping("/prenotazione")
-	public String newPrenotazione(@ModelAttribute("prenotazione") Prenotazione prenotazione) {
-		this.prenotazioneService.save(prenotazione);
-		return "redirect:prenotazione/"+prenotazione.getId();
+
+	model.addAttribute("evento", this.eventoService.findById(id_evento));
+	model.addAttribute("prenotazione", new Prenotazione());
+
+	return "formNewPrenotazione.html";
 	}
-	
-	 @GetMapping("/formSearchPrenotazioni")
-	 public String formSearchPrenotazioni() {
-	    return "formSearchPrenotazioni.html";
-	 }
+
+	/*FINALIZZA LA PRENOTAZIONE PER L'UTENTE ATTUALMENTE LOGGATO*/
+	@PostMapping("/prenotaEvento/{id}")
+	public String postNewPrenotazione(@PathVariable("id") Long id_evento, @ModelAttribute("prenotazione") Prenotazione prenotazione) {
+	//il numero di biglietti viene aggiunto nel form
+	//utente corrente ed evento per il quale aggiungo la prenotazione
+	Utente u = getCredenziali().getUtente();
+	Evento e = this.eventoService.findById(id_evento);
+	//setto i valori di prenotazione
+	prenotazione.setEvento(e);
+	prenotazione.setUtente(u);
+	//salvo la prenotazioen
+	this.prenotazioneService.save(prenotazione);
+	//per ora ritorni alla pagina dell'utente
+	return "redirect:/eventi/" + id_evento;  //potremmo fare una pagina profilo dell'utente dove mostrare le prenotazioni
+	}
+	 
+	 
 	 
 	 
 
