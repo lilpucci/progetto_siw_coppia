@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,15 +17,15 @@ public class Locale {
     
     /*ATTRIBUTI LOCALE*/
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String nomeLocale;
-    private String indirizzo; //-> si potrebbe trasformare in una classe (nome, civico, città)
+    private String indirizzo; //-> si potrebbe trasformare in una classe (nome, civico, cittÃ )
     private String descrizione;
-                                //tutte le operazioni si propagano //gli eventi non vengono caricati dal database finchè non sono necessari
-    @OneToMany(mappedBy = "locale", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @OrderBy("dataEvento ASC")  //così quando prendo gli eventi dal database saranno caricati in ordine crescente rispetto alla dataEvento
+                                //tutte le operazioni si propagano //gli eventi non vengono caricati dal database finchÃ¨ non sono necessari
+    @OneToMany(mappedBy = "locale", cascade = CascadeType.ALL)
+    @OrderBy("dataEvento ASC")  //cosÃ¬ quando prendo gli eventi dal database saranno caricati in ordine crescente rispetto alla dataEvento
     private List<Evento> eventi = new ArrayList<>();
     /*FINE ATTRIBUTI LOCALE*/
 

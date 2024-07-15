@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Artista</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+    <div><a href="/"><img src="/images/logo-siwovernight.png" width="50%" /></a></div>
+    
+    <div th:object="${artista}">
+        <img th:if="${artista.getFirstImmagine() != null}" th:src="'data:image/jpeg;base64,' + ${artista.getFirstImmagine().getBase64()}" width="30%"/>
+    </div>
+    
+    <div>
+        <h1 th:text="${artista.nome+ ' ' + artista.cognome}">Nome Cognome</h1>
+        <div>Data di nascita: <span th:text="'' + ${artista.data_nascita} + ''">2000</span></div>
+        
+        <div>
+            <h3>Eventi </h3>
+            <div th:if="${#lists.isEmpty(artista.eventi)}">
+                <p>Non ci sono attualmente eventi per questo artista</p>
+            </div>
+            <ul th:unless="${#lists.isEmpty(artista.eventi)}">
+                <li th:each="evento : ${artista.eventi}">
+                    <span th:text="${evento.nome}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+        
+    <div th:if="${artista == null}">Non esiste</div>
+   
+    <div><a th:href="@{/admin/updateArtista/{id}(id=${artista.id})}">Aggiorna dati artista</a></div>
+    
+    <div>
+        <a th:href="@{/admin/formNewEvento/{artista_id}(artista_id=${artista.id})}">Aggiungi Evento</a>    
+    </div>
+
+    <form th:action="@{/admin/deleteArtista/{id}(id=${artista.id})}" method="post">
+        <input type="hidden" name="_method" value="post"> <!-- Simula DELETE -->
+        <button type="submit">Elimina artista</button>
+    </form>
+
+    <div>
+        <a th:href="@{/artisti}">torna alla lista degli artisti</a>    
+    </div>
+
+</body>
+
+</html>

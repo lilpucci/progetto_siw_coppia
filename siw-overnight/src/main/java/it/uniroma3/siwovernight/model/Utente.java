@@ -1,10 +1,11 @@
 package it.uniroma3.siwovernight.model;
 
 import java.time.LocalDate;
-import java.util.Objects;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,9 +22,12 @@ public class Utente {
     @DateTimeFormat(pattern = "dd-MM-YYYY")
     private LocalDate dataNascita;
 
-    private String username;
+    private String nome;
     
-    private String password;
+    private String cognome;
+
+    @ElementCollection
+    private List<Immagine> immagini;
     /*FINE ATTRIBUTI UTENTE*/
 
 
@@ -40,24 +44,36 @@ public class Utente {
     public void setDataNascita(LocalDate dataNascita) {
         this.dataNascita = dataNascita;
     }
-    public String getUsername() {
-        return username;
+    public String getCognome() {
+        return cognome;
     }
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
     }
-    public String getPassword() {
-        return password;
+ 
+    public String getNome() {
+        return nome;
     }
-    public void setPassword(String password) {
-        this.password = password;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public List<Immagine> getImmagini() {
+        return immagini;
+    }
+    public void setImmagini(List<Immagine> immagini) {
+        this.immagini = immagini;
     }
     /*FINE GETTER & SETTER*/
 
     /*EQUALS & HASHCODE*/
     @Override
     public int hashCode() {
-        return Objects.hash(id,username,password);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+        result = prime * result + ((cognome == null) ? 0 : cognome.hashCode());
+        return result;
     }
     @Override
     public boolean equals(Object obj) {
@@ -68,26 +84,33 @@ public class Utente {
         if (getClass() != obj.getClass())
             return false;
         Utente other = (Utente) obj;
-        if (id == null) {
-            if (other.id != null)
+        if (nome == null) {
+            if (other.nome != null)
                 return false;
-        } else if (!id.equals(other.id))
+        } else if (!nome.equals(other.nome))
             return false;
-        if (username == null) {
-            if (other.username != null)
+        if (cognome == null) {
+            if (other.cognome != null)
                 return false;
-        } else if (!username.equals(other.username))
-            return false;
-        if (password == null) {
-            if (other.password != null)
-                return false;
-        } else if (!password.equals(other.password))
+        } else if (!cognome.equals(other.cognome))
             return false;
         return true;
     }
+    
     /*FINE EQUALS & HASHCODE*/
 
+    /*METODI PER LE IMMAGINI*/
+    public Immagine getFirstImage(){
+        return this.immagini.get(0);
+    } 
 
+    public List<Immagine> getImmaginiDopoFirst(){
+        try {
+            return this.immagini.subList(1, this.immagini.size());
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 
 }

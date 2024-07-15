@@ -19,7 +19,7 @@ public class PrenotazioneController {
 	PrenotazioneService prenotazioneService;
 	
 	
-	//risponde a una GET HTTP che avrÃ  un URL del tipo /movie/1231
+	//risponde a una GET HTTP che avrÃƒ  un URL del tipo /movie/1231
 	@GetMapping("Prenotazione/{id}")//senza s
 	public String getPrenotazione(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("prenotazione", this.prenotazioneService.findById(id));

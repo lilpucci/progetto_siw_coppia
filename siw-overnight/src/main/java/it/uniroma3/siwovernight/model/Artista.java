@@ -128,8 +128,27 @@ public class Artista {
         this.dataNascita = dataNascita;
         this.immagini = immagini;
     }
-    //TODO toString()
+
+    @Override
+    public String toString() {
+        return "Artista: " + nome+ " " + cognome;
+    }
+
     /*FINE COSTRUTTORI*/
     
+    /*METODI PER LE IMMAGINI*/
+    public Immagine getFirstImmagine(){
+        return this.immagini.get(0);
+    } 
+
+    public List<Immagine> getImmaginiDopoFirst(){
+        try {
+            return this.immagini.subList(1, this.immagini.size());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+  
+
 }
     

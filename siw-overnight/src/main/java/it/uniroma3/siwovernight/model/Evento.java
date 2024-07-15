@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,6 +52,10 @@ public class Evento {
 
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     private List<Prenotazione> prenotazioni;
+   
+    @ElementCollection
+    private List<Immagine> immagini;
+
     /*FINE ATTRIBUTI EVENTO*/
 
     
@@ -166,5 +171,23 @@ public class Evento {
     }
     //TODO toString()
     /*FINE COSTRUTTORI*/
-    
+    /*METODI PER LE IMMAGINI*/
+    public Immagine getFirstImage(){
+        return this.immagini.get(0);
+    } 
+
+    public List<Immagine> getImmaginiDopoFirst(){
+        try {
+            return this.immagini.subList(1, this.immagini.size());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public List<Immagine> getImmagini() {
+        return immagini;
+    }
+    public void setImmagini(List<Immagine> immagini) {
+        this.immagini = immagini;
+    }
+
 }

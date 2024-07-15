@@ -14,24 +14,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
 @Configuration
 @EnableWebSecurity
-public class AuthConfiguration {
-    
+public class AuthConfiguration{
+
     @Autowired
     private DataSource dataSource;
 
+    /**
+	 * Questo metodo definisce le query SQL per ottenere username e password
+	 */
     @Autowired
-    private void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
-            .dataSource(dataSource)
-            .authoritiesByUsernameQuery("SELECT username, role FROM credentials WHERE username=?")
-            .usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credentials WHERE username=?");
+            .dataSource(this.dataSource)
+            //query per recuperare username e ruolo
+            .authoritiesByUsernameQuery("SELECT username, role FROM credenziali WHERE username=?")
+            //query per username e password. Il flag boolean flag specifica se l'utente user Ã¨ abilitato o no (va sempre a true)
+            .usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credenziali WHERE username=?");
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -40,23 +44,23 @@ public class AuthConfiguration {
         http
                 .csrf(csrf -> csrf.disable()) // Disabilita CSRF se necessario, o configuralo come richiesto
                 .cors(cors -> cors.disable()) // Disabilita CORS se necessario, o configuralo come richiesto
-                // AUTORIZZAZIONE: qui definiamo chi può accedere a cosa
+                // AUTORIZZAZIONE: qui definiamo chi puÃ² accedere a cosa
                 .authorizeHttpRequests( authorize -> authorize
-                        // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
-                        .requestMatchers(HttpMethod.GET, "/", "/home", "/register", "/css/**", "/image/**", "favicon.ico").permitAll()
-                        // chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register
-                        .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
-                        //solo admin e utenti registrati possono aggiungere-cancellare-modificare risorse  (controlla che chi non è admin lavori per le sue risorse)
-                        .requestMatchers(HttpMethod.GET, "CI VANNO LE OPERAZIONI DEL CUOCO").hasAnyAuthority("ADMIN","REGISTRATO")
-                        .requestMatchers(HttpMethod.POST, "CI VANNO LE OPERAZIONI DEL CUOCO").hasAnyAuthority("ADMIN","REGISTRATO")
+                        // chiunque (autenticato o no) puÃ² accedere alle pagine index, login, register, ai css e alle immagini
+                        .requestMatchers(HttpMethod.GET, "/", "/home", "/register", "/css/**", "/images/**", "favicon.ico","/artisti/**","/eventi/**","/prenotazioni/**","/searchArtista","/searchEvento","/formSearch").permitAll()
+                        // chiunque (autenticato o no) puÃ² mandare richieste POST al punto di accesso per login e register
+                        .requestMatchers(HttpMethod.POST, "/register", "/login","/artisti/**","/eventi/**","/prenotazioni/**","/searchArtista","/searchEvento","/formSearch").permitAll()
+                         // utenti registrati (cuochi) possono aggiungere nuovi ingredienti e nuove ricette e modificare e cancellare le proprie ricette
+                        /*.requestMatchers(HttpMethod.POST,"/chef/**").hasAnyAuthority("CHEF","ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/chef/**").hasAnyAuthority("CHEF","ADMIN")//VEDI SE AGGIUNGERE L'AUTH PER GLI ARTISTI COME CHEF  */
                         // solo gli utenti autenticati con ruolo ADMIN possono accedere a risorse con path /admin/**
-                        .requestMatchers(HttpMethod.GET, "/admin/**").permitAll()           //.hasAnyAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/admin/**").permitAll()              //.hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority("ADMIN")
                         // tutti gli utenti autenticati possono accere alle pag
                         .anyRequest().authenticated())
                         
                 
-                // LOGIN: qui definiamo come è gestita l'autenticazione
+                // LOGIN: qui definiamo come Ã¨ gestita l'autenticazione
 				// usiamo il protocollo formlogin       
                 .formLogin(formLogin -> formLogin
                          // la pagina di login si trova a /login

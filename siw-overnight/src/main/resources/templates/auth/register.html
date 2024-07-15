@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | SiwOvernight</title>
+    <link rel="stylesheet" href="/css/stile2.css">
+</head>
+<body>
+  <div class="wrapper">
+    <form th:action="@{/register}" method="post" enctype="multipart/form-data" >
+      <h2>Register</h2>
+      <div class="input-field">
+        <input type="text" name="username" th:field="*{credenziali.username}" required>
+        <label for="username">Username</label>
+      </div>
+      <div class="input-field">
+        <input type="password" name="password" th:field="*{credenziali.password}" required>
+        <label for="password">Password</label>
+      </div>
+      <div class="input-field">
+        <input type="text" name="nome" th:field="*{utente.nome}" required>
+        <label for="nome">Nome</label>
+      </div>
+      <div class="input-field">
+        <input type="text" name="cognome" th:field="*{utente.cognome}" required>
+        <label for="cognome">Cognome</label>
+      </div>
+      <div class="input-field">
+        <input type="date" name="dataNascita" th:field="*{utente.dataNascita}" required>
+        <label for="dataNascita">Data di nascita</label>
+      </div>
+      <div class="input-field">
+        <input type="file" id="immagine" name="immagine" accept="image/*" required>
+        <label for="immagine">Immagine</label>
+      </div>
+      <button type="submit">Register</button>
+    </form>
+  </div>
+</body>
+</html>

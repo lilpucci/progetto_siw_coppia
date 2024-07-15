@@ -37,6 +37,10 @@ public class Credenziali {
     private Utente utente;
     /*FINE ATTRIBUTI CREDENTIALI*/
 
+    public Credenziali (){
+        
+    }
+
 
     /*EQUALS & HASHCODE*/
     @Override
