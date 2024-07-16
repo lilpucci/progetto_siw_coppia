@@ -31,6 +31,11 @@
             <a th:href="@{/admin/addLocale}">Aggiungi Locale</a>
         </div>
 
+        <!-- Messaggio per l'utente non loggato -->
+        <div th:unless="${userDetails}">
+            <h3>Loggati per avere accesso alle operazioni</h3>
+        </div>
+
         <!-- Porta alla form di ricerca -->
         <div class="navigation">
             <a th:href="@{/search}">Vai alla pagina di ricerca </a>

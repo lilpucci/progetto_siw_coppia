@@ -26,9 +26,16 @@
             </li>
         </ul>
 
-        <!-- Navigazione per aggiungere nuovi eventi -->
-        <div class="navigation">
-            <a th:href="@{/admin/formNewEvento}">Aggiungi un nuovo Evento</a>
+        <!-- Controllo se l'utente è loggato e se è admin -->
+        <div th:if="${userDetails}">
+            <!-- Navigazione per aggiungere nuovi eventi -->
+            <div class="navigation">
+                <a th:href="@{/admin/formNewEvento}">Aggiungi un nuovo Evento</a>
+            </div>
+        </div>
+        <!-- Messaggio per l'utente non loggato -->
+        <div th:unless="${userDetails}">
+            <h3>Loggati per avere accesso alle operazioni</h3>
         </div>
 
         <!-- Link per tornare alla home page -->

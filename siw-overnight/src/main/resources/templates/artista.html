@@ -29,21 +29,29 @@
             </div>
             <ul class="evento-list" th:unless="${#lists.isEmpty(artista.eventi)}">
                 <li class="evento-item" th:each="evento : ${artista.eventi}">
-                    <a href="/evento/${evento.id}"><span th:text="${evento.titoloEvento}"></span>
+                    <a href="/evento/${evento.id}">
                         <span th:text="${evento.titoloEvento}">Nome Evento</span>
                     </a>    
                 </li>
             </ul>
         </div>
         
-        <div class="navigation">
-            <a th:href="@{/admin/updateArtista/{id}(id=${artista.id})}">Aggiorna dati artista</a>
-        </div>
+        <!-- Controllo se l'utente è loggato e se è admin -->
+        <div th:if="${userDetails}">
+            <div class="navigation">
+                <a th:href="@{/admin/updateArtista/{id}(id=${artista.id})}">Aggiorna dati artista</a>
+            </div>
 
-        <form class="navigation" th:action="@{/admin/deleteArtista/{id}(id=${artista.id})}" method="post">
-            <input type="hidden" name="_method" value="post"> <!-- Simula DELETE -->
-            <button type="submit">Elimina artista</button>
-        </form>
+            <form class="navigation" th:action="@{/admin/deleteArtista/{id}(id=${artista.id})}" method="post">
+                <input type="hidden" name="_method" value="post"> <!-- Simula DELETE -->
+                <button type="submit">Elimina artista</button>
+            </form>
+        </div>
+        
+        <!-- Messaggio per l'utente non loggato -->
+        <div th:unless="${userDetails}">
+            <h3>Loggati per avere accesso alle operazioni</h3>
+        </div>
 
         <div class="navigation">
             <a th:href="@{/artisti}">Torna alla lista degli artisti</a>    

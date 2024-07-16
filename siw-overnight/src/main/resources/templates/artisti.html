@@ -26,10 +26,16 @@
             </li>
         </ul>
 
-        <div class="navigation">
-            <a href="/admin/formNewArtista">Aggiungi un nuovo Artista</a>
+        <!-- Controllo se l'utente è loggato e se è admin -->
+        <div th:if="${userDetails}">
+            <div class="navigation">
+                <a href="/admin/formNewArtista">Aggiungi un nuovo Artista</a>
+            </div>
         </div>
-
+        <!-- Messaggio per l'utente non loggato -->
+        <div th:unless="${userDetails}">
+            <h3>Loggati per avere accesso alle operazioni</h3>
+        </div>
         <div class="navigation">
             <a href="/">Torna all'home page</a>
         </div>
