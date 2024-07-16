@@ -52,13 +52,13 @@ public class PrenotazioneController extends GlobalController {
 	//utente corrente ed evento per il quale aggiungo la prenotazione
 	Utente u = getCredenziali().getUtente();
 	Evento e = this.eventoService.findById(id_evento);
-	//aggiungo la prenotazione all'utente
-	u.getPrenotazioni().add(prenotazione);
 	//setto i valori di prenotazione
 	prenotazione.setEvento(e);
 	prenotazione.setUtente(u);
 	//salvo la prenotazione
 	this.prenotazioneService.save(prenotazione);
+	//aggiungo la prenotazione all'utente
+	u.getPrenotazioni().add(prenotazione);
 	//per ora ritorni alla pagina dell'utente
 	return "redirect:/eventi/" + id_evento;  //potremmo fare una pagina profilo dell'utente dove mostrare le prenotazioni
 	}
@@ -74,7 +74,7 @@ public class PrenotazioneController extends GlobalController {
 		}
 		//cancello la prenotazione
 		this.prenotazioneService.delete(p);
-		return "profilo.html";
+		return "redirect:/utente";
 	}
 	
 	 

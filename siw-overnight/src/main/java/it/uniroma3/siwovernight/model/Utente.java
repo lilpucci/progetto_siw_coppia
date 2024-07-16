@@ -35,7 +35,7 @@ public class Utente {
     private List<Prenotazione> prenotazioni = new ArrayList<>();
 
     @ElementCollection
-    private List<Immagine> immagini;
+    private List<Immagine> immagini= new ArrayList<>();
     /*FINE ATTRIBUTI UTENTE*/
 
 

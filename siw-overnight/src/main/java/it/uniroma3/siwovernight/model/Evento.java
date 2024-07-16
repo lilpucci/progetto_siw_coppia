@@ -52,7 +52,7 @@ public class Evento {
     private List<Artista> artisti = new ArrayList<>();
 
     @ElementCollection
-    private List<Immagine> immagini;
+    private List<Immagine> immagini= new ArrayList<>();
 
     /*FINE ATTRIBUTI EVENTO*/
 

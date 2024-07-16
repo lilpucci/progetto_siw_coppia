@@ -29,7 +29,7 @@ public class Artista {
     
     
     @ElementCollection
-    private List<Immagine> immagini;
+    private List<Immagine> immagini= new ArrayList<>();
     
     
     @Past

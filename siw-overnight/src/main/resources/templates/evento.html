@@ -36,7 +36,9 @@
             <h3>Artisti</h3>
             <ul class="artisti-list">
                 <li class="artisti-item" th:each="artista : ${evento.artisti}">
-                    <span th:text="${artista.nome}">Nome Artista</span>
+                    <a th:href="@{/artisti/{id}(id=${artista.id})}">
+                     <span th:text="${artista.nome}">Nome Artista</span>
+                     </a>
                 </li>
             </ul>
         </div>

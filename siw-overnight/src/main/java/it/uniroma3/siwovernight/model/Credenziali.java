@@ -13,8 +13,8 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 public class Credenziali {
   
-    public static final String UTENTE_GENERICO = "GENERICO";
-    public static final String UTENTE_REGISTRATO = "REGISTRATO";
+    
+    public static final String UTENTE_REGISTRATO = "USER";
     public static final String ADMIN = "ADMIN";
 
     /*ATTRIBUTI CREDENTIALI*/
@@ -80,10 +80,6 @@ public class Credenziali {
     }
 
     /*RESTITUISCONO I RUOLI*/
-    public static String getUtenteGenerico() {
-        return UTENTE_GENERICO;
-    }
-
     public static String getUtenteRegistrato() {
         return UTENTE_REGISTRATO;
     }

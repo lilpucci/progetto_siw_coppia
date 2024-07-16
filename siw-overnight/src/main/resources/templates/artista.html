@@ -29,17 +29,15 @@
             </div>
             <ul class="evento-list" th:unless="${#lists.isEmpty(artista.eventi)}">
                 <li class="evento-item" th:each="evento : ${artista.eventi}">
-                    <span th:text="${evento.nome}">Nome Evento</span>
+                    <a href="/evento/${evento.id}"><span th:text="${evento.titoloEvento}"></span>
+                        <span th:text="${evento.titoloEvento}">Nome Evento</span>
+                    </a>    
                 </li>
             </ul>
         </div>
         
         <div class="navigation">
             <a th:href="@{/admin/updateArtista/{id}(id=${artista.id})}">Aggiorna dati artista</a>
-        </div>
-        
-        <div class="navigation">
-            <a th:href="@{/admin/formNewEvento/{artista_id}(artista_id=${artista.id})}">Aggiungi Evento</a>    
         </div>
 
         <form class="navigation" th:action="@{/admin/deleteArtista/{id}(id=${artista.id})}" method="post">
