@@ -17,6 +17,7 @@ import it.uniroma3.siwovernight.service.PrenotazioneService;
 
 
 
+
 @Controller
 public class PrenotazioneController extends GlobalController {
 	
@@ -51,14 +52,31 @@ public class PrenotazioneController extends GlobalController {
 	//utente corrente ed evento per il quale aggiungo la prenotazione
 	Utente u = getCredenziali().getUtente();
 	Evento e = this.eventoService.findById(id_evento);
+	//aggiungo la prenotazione all'utente
+	u.getPrenotazioni().add(prenotazione);
 	//setto i valori di prenotazione
 	prenotazione.setEvento(e);
 	prenotazione.setUtente(u);
-	//salvo la prenotazioen
+	//salvo la prenotazione
 	this.prenotazioneService.save(prenotazione);
 	//per ora ritorni alla pagina dell'utente
 	return "redirect:/eventi/" + id_evento;  //potremmo fare una pagina profilo dell'utente dove mostrare le prenotazioni
 	}
+
+	/*CANCELLA PRENOTAZIONE*/
+	@GetMapping("/eliminaPrenotazione/{id}")
+	public String eliminaPrenotazione(@PathVariable("id") Long id_pren) {
+		//questa è la prenotazione che voglio cancellare
+		Prenotazione p = this.prenotazioneService.findById(id_pren);
+		//controllo che stia eliminando una prenotazione dell'utente che sta usando il sistema
+		if(getCredenziali().getUtente() != p.getUtente()){
+			return "errorPage.html";
+		}
+		//cancello la prenotazione
+		this.prenotazioneService.delete(p);
+		return "profilo.html";
+	}
+	
 	 
 	 
 	 

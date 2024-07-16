@@ -1,10 +1,9 @@
 package it.uniroma3.siwovernight.model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -39,15 +38,15 @@ public class Artista {
     private LocalDate dataNascita;
     
     @ManyToMany(mappedBy = "artisti")
-    private Set<Evento> eventi = new HashSet<>();
+    private List<Evento> eventi = new ArrayList<>();
     /*FINE ATTRIBUTI ARTISTA*/
 
 
-    /*GETTERS & SETTERS*/
+    /*GETTERS & ListTERS*/
     public Long getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(Long id){
         this.id = id;
     }
     public String getNome() {
@@ -74,13 +73,13 @@ public class Artista {
     public void setDataNascita(LocalDate dataNascita) {
         this.dataNascita = dataNascita;
     }
-    public Set<Evento> getEventi() {
+    public List<Evento> getEventi() {
         return eventi;
     }
-    public void setEventi(Set<Evento> eventi) {
+    public void setEventi(List<Evento> eventi) {
         this.eventi = eventi;
     }
-    /*FINE GETTERS & SETTERS*/
+    /*FINE GETTERS & ListTERS*/
 
 
     /*EQUALS & HASHCODE*/

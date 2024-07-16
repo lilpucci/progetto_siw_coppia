@@ -71,7 +71,7 @@ public class LocaleController extends GlobalController{
     /*CANCELLAZIONE LOCALE*/
     @GetMapping("/admin/deleteLocale/{id}")
     public String deleteLocale(@PathVariable("id") Long id) {
-
+        //solo l'admin può cancellare un locale
         if(!getCredenziali().isAdmin()){
             return "errorPage.html";
         }

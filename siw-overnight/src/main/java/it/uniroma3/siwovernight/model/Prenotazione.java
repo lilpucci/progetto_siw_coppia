@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Prenotazione {
@@ -21,6 +22,7 @@ public class Prenotazione {
     //private String descrizione;
     //private String url;
 
+    @NotBlank
     private int num_biglietti;
         
     @ManyToOne

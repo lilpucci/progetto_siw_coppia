@@ -29,7 +29,7 @@
         <!-- se ci sono per ogni evento mostro il titolo (si potrebbe far diventare un ancora) -->
         <ul th:unless="${#lists.isEmpty(locale.eventi)}">
             <li th:each="evento : ${locale.eventi}">
-                <span th:text="${evento.titoloEvento}">titolo Evento</span>
+                <span th:text="${evento.titoloEvento}">   </span>
             </li>
         </ul>
     </div>

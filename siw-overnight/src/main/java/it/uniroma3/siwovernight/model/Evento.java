@@ -1,14 +1,12 @@
 package it.uniroma3.siwovernight.model;
 
 import java.time.LocalDate;
-//import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,14 +16,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Future;
 
 @Entity
 public class Evento {
     
     /*ATTRIBUTI EVENTO*/
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String titoloEvento;
@@ -33,6 +31,7 @@ public class Evento {
     private String descr; 
     
     @DateTimeFormat(pattern = "dd-MM-YYYY")
+    @Future
     private LocalDate dataEvento;
     
     //@DateTimeFormat(pattern = "hh:mm")
@@ -50,8 +49,8 @@ public class Evento {
     )
     private Set<Artista> artisti = new HashSet<>();
 
-    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
-    private List<Prenotazione> prenotazioni;
+    /*@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
+    private List<Prenotazione> prenotazioni;*/
    
     @ElementCollection
     private List<Immagine> immagini;
@@ -108,11 +107,17 @@ public class Evento {
     //public void setOrarioInizio(LocalTime orarioInizio) {
     //    this.orarioInizio = orarioInizio;
     //}
-    public List<Prenotazione> getPrenotazioni() {
+    /*public List<Prenotazione> getPrenotazioni() {
         return prenotazioni;
     }
     public void setPrenotazioni(List<Prenotazione> prenotazioni) {
         this.prenotazioni = prenotazioni;
+    }*/
+    public List<Immagine> getImmagini() {
+        return immagini;
+    }
+    public void setImmagini(List<Immagine> immagini) {
+        this.immagini = immagini;
     }
     /*FINE GETTER & SETTER*/
 
@@ -171,6 +176,7 @@ public class Evento {
     }
     //TODO toString()
     /*FINE COSTRUTTORI*/
+
     /*METODI PER LE IMMAGINI*/
     public Immagine getFirstImage(){
         return this.immagini.get(0);
@@ -183,11 +189,6 @@ public class Evento {
             return null;
         }
     }
-    public List<Immagine> getImmagini() {
-        return immagini;
-    }
-    public void setImmagini(List<Immagine> immagini) {
-        this.immagini = immagini;
-    }
+    
 
 }
