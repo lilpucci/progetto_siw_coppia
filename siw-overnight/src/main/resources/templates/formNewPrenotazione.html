@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Form Prenotazione</title>
+        <link rel="stylesheet" href="/css/stile.css" />
+    </head>
+
+
+    <body>
+        <h1>Dettagli della Prenotazione</h1>
+
+        <!--mostro i dettagli dell'evento-->
+        <div th:if="${evento != null}">
+            <h1 th:text="${evento.titoloEvento}">Titolo Evento</h1>
+            <div class="message">
+                Descrizione: <span th:text="${evento.descr}">Descrizione</span>
+            </div>
+            <div class="message">
+                Prezzo: <span th:text="${evento.prezzo}">Prezzo</span>
+            </div>
+            <div class="message">
+                Data Evento: <span th:text="${#dates.format(evento.dataEvento, 'dd-MM-yyyy')}">Data Evento</span>
+            </div>
+        </div>
+
+        <form th:action="@{/prenotaEvento/{id}(id=${evento.id})}" th:object="${prenotazione}" method="post">
+            <!-- casella per inserire il numero di biglietti -->
+            <div>
+                <label for="num_biglietti">Quanti biglietti vuoi acquistare: </label>
+                <input type="number" name="num_biglietti" th:field="*{num_biglietti}" />
+            </div>
+
+            <button type="submit">Conferma Prenotazione!</button>
+        </form>
+
+        <!-- Link per tornare alla pagina dell'evento -->
+        <div class="navigation">
+            <a th:href="@{/eventi/{id}(id=${evento.id})}">Annulla Prenotazione!</a>
+        </div>
+
+
+    </body>
+</html>
+ 

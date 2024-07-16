@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Prenotazione {
@@ -18,14 +19,18 @@ public class Prenotazione {
     private Long id;
 
     //questi due si potrebbero togliere
-    private String descrizione;
-    private String url;
-    
+    //private String descrizione;
+    //private String url;
+
+    @NotBlank
+    private int num_biglietti;
+        
     @ManyToOne
     @JoinColumn(name = "evento_id")
     private Evento evento;
     
     @ManyToOne 
+    @JoinColumn(name = "utente_id")
     private Utente utente;
     /*FINE ATTRIBUTI*/
 
@@ -37,6 +42,7 @@ public class Prenotazione {
     public void setId(Long id) {
         this.id = id;
     }
+    /* 
     public String getDescrizione() {
         return descrizione;
     }
@@ -48,7 +54,7 @@ public class Prenotazione {
     }
     public void setUrl(String url) {
         this.url = url;
-    }
+    } */
     public Evento getEvento() {
         return evento;
     }
@@ -60,6 +66,13 @@ public class Prenotazione {
     }
     public void setUtente(Utente utente) {
         this.utente = utente;
+    }
+
+    public int getNum_biglietti() {
+        return num_biglietti;
+    }
+    public void setNum_biglietti(int num_biglietti) {
+        this.num_biglietti = num_biglietti;
     }
     /*FINE GETTER & SETTER*/
 
@@ -83,6 +96,7 @@ public class Prenotazione {
             return false;
         } else if (!id.equals(other.id))
         return false;
+        /* 
         if (descrizione == null) {
             if (other.descrizione != null)
             return false;
@@ -92,7 +106,7 @@ public class Prenotazione {
             if (other.url != null)
             return false;
         } else if (!url.equals(other.url))
-        return false;
+        return false;*/
         if (evento == null) {
             if (other.evento != null)
             return false;
@@ -113,9 +127,8 @@ public class Prenotazione {
     
     }
     
-    public Prenotazione(String descrizione, String url, Evento evento, Utente utente){
-        this.descrizione = descrizione;
-        this.url = url;
+    public Prenotazione(Evento evento, Utente utente, int num_biglietti){
+        this.num_biglietti = num_biglietti;
         this.evento = evento;
         this.utente = utente;
     }

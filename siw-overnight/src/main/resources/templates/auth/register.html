@@ -8,32 +8,39 @@
 </head>
 <body>
   <div class="wrapper">
-    <form th:action="@{/register}" method="post" enctype="multipart/form-data" th:object="${utente}">
+    <form th:action="@{/register}" method="post" enctype="multipart/form-data">
       <h2>Register</h2>
+
       <div class="input-field">
-        <input type="text" th:field="${credenziali.username}" required>
         <label for="username">Username</label>
+        <input type="text" id="username" th:field="*{credenziali.username}" required>
       </div>
+
       <div class="input-field">
-        <input type="password" th:field="${credenziali.password}" required>
         <label for="password">Password</label>
+        <input type="password" id="password" th:field="*{credenziali.password}" required>
       </div>
-      <div class="input-field" th:object="${utente}">
-        <input type="text" th:field="*{nome}" required>
+
+      <div class="input-field">
         <label for="nome">Nome</label>
+        <input type="text" id="nome" th:field="*{utente.nome}" required>
       </div>
+
       <div class="input-field">
-        <input type="text" th:field="*{cognome}" required>
         <label for="cognome">Cognome</label>
+        <input type="text" id="cognome" th:field="*{utente.cognome}" required>
       </div>
+
       <div class="input-field">
-        <input type="date" th:field="*{dataNascita}" required>
         <label for="dataNascita">Data di nascita</label>
+        <input type="date" id="dataNascita" th:field="*{utente.dataNascita}" required>
       </div>
+
       <div class="input-field">
-        <input type="file" id="immagine" name="immagine" accept="image/*" required>
         <label for="immagine">Immagine</label>
+        <input type="file" id="immagine" name="immagine" accept="image/*" required>
       </div>
+
       <button type="submit">Register</button>
     </form>
   </div>

@@ -29,7 +29,7 @@ public class GlobalController {
         return user;
     }
 
-	@ModelAttribute("credenziali")
+	@ModelAttribute("credDetails")
     public Credenziali getCredenziali() {
         UserDetails user = null;
 

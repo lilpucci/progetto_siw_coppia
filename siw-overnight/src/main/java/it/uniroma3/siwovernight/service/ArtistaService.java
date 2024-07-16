@@ -3,6 +3,7 @@ package it.uniroma3.siwovernight.service;
 
 import java.time.LocalDate;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,8 @@ public class ArtistaService {
         return this.artistaRepository.findAll();
     }
 
-    public Iterable<Artista> findByNome(String nome){
+    public Artista findByNome(String nome){
         return this.artistaRepository.findByNome(nome);
-    }
-
-    public Artista findByNomeAndCognome(String nome, String cognome){
-        return this.artistaRepository.findByNomeAndCognome(nome,cognome);
     }
 
     public Iterable<Artista> findByDataNascita(int year){

@@ -47,7 +47,7 @@ public class AuthConfiguration{
                 // AUTORIZZAZIONE: qui definiamo chi puÃ² accedere a cosa
                 .authorizeHttpRequests( authorize -> authorize
                         // chiunque (autenticato o no) puÃ² accedere alle pagine index, login, register, ai css e alle immagini
-                        .requestMatchers(HttpMethod.GET, "/", "/home", "/formRegister", "/css/**", "/images/**", "favicon.ico","/artisti/**","/eventi/**","/prenotazioni/**","/searchArtista","/searchEvento","/formSearch").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/", "/home", "/formRegister", "/css/**", "/images/**", "favicon.ico","/artisti/**","/eventi/**","/locali/**","/prenotazioni/**","/searchArtista","/searchEvento","/formSearch").permitAll()
                         // chiunque (autenticato o no) puÃ² mandare richieste POST al punto di accesso per login e register
                         .requestMatchers(HttpMethod.POST, "/register", "/login","/artisti/**","/eventi/**","/prenotazioni/**","/searchArtista","/searchEvento","/formSearch").permitAll()
                          // utenti registrati (cuochi) possono aggiungere nuovi ingredienti e nuove ricette e modificare e cancellare le proprie ricette

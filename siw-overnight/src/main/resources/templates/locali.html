@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Locali</title>
+</head>
+<body>
+    <h1>Lista dei Locali</h1>
+
+    <!-- per ogni locale che passo come modello alla vista -->
+    <ul>
+        <li th:each="locale : ${locali}">  <!-- mostro nome del locale e indirizzo (il nome è un ancora che porta alla pagina del locale) -->
+            <a th:href="@{/locali/{id}(id=${locale.id})}">
+                <h3 th:text="${locale.nomeLocale}">nome locale</h3>
+            </a>
+            <p th:text="${locale.indirizzo}">indirizzo locale</p>
+        </li>
+    </ul>
+    
+    <!-- porta alla form di aggiunta del nuovo locale -->
+    <div th:if="${userDetails}">
+        <a th:href="@{/admin/addLocale}">Admin aggiunge Locale</a>
+    </div>
+
+    <!-- porta alla form di ricerca -->
+    <div>
+        <a th:href="@{/search}">Vai alla pagina di ricerca</a>
+    </div>
+
+    <div>
+        <a th:href="@{/}">torna all'home page</a>
+    </div>
+    
+</body>
+</html>

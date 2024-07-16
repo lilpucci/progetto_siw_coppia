@@ -93,7 +93,6 @@ public class AuthController {
         if(!utenteBindingResult.hasErrors() && !credenzialiBindingResult.hasErrors()){
             utenteService.save(utente);
             credenziali.setUtente(utente);
-            credenziali.setPassword(passwordEncoder.encode(credenziali.getPassword()));
             credenziali.setRole("USER"); // Imposta il ruolo di default
             credenzialiService.saveCredenziali(credenziali);
 
@@ -103,6 +102,9 @@ public class AuthController {
         }
         return "auth/register.html";
     }
-
+    @GetMapping("/search")
+    public String getFormSearch(Model model) {
+        return "formSearch.html";
+    }
     //TODO far sparire i warning
 }

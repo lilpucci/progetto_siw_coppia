@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="logo-container">
-        <a href="/"><img src="/images/logo-siwovernight.png" class="logo" /></a>
+        <a href="/"><img src="/images/logo-siwovernight.png" class="logo" alt="Logo SiwOvernight" /></a>
     </div>
 
     <div class="wrapper">
@@ -20,15 +20,17 @@
         </div>
 
         <!-- Lista degli eventi -->
-        <ul class="eventi-list">
-            <li th:each="evento : ${eventi}" class="evento-item">
+        <ul class="ricette-list">
+            <li th:each="evento : ${eventi}" class="ricetta-item">
                 <a th:href="@{'/eventi/' + ${evento.id}}" th:text="${evento.titoloEvento}">Titolo Evento</a>
             </li>
         </ul>
 
+        <!-- Navigazione per aggiungere nuovi eventi -->
         <div class="navigation">
             <a th:href="@{/admin/formNewEvento}">Aggiungi un nuovo Evento</a>
         </div>
+
         <!-- Link per tornare alla home page -->
         <div class="navigation">
             <a th:href="@{/}">Torna alla home page</a>

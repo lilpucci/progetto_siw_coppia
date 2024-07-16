@@ -1,10 +1,9 @@
 package it.uniroma3.siwovernight.model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,8 +26,7 @@ public class Artista {
 
     @NotBlank
     private String nome;
-    @NotBlank
-    private String cognome;
+    
     
     @ElementCollection
     private List<Immagine> immagini;
@@ -39,7 +37,7 @@ public class Artista {
     private LocalDate dataNascita;
     
     @ManyToMany(mappedBy = "artisti")
-    private Set<Evento> eventi = new HashSet<>();
+    private List<Evento> eventi = new ArrayList<>();
     /*FINE ATTRIBUTI ARTISTA*/
 
 
@@ -56,12 +54,6 @@ public class Artista {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public String getCognome() {
-        return cognome;
-    }
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
-    }
     public List<Immagine> getImmagini() {
         return immagini;
     }
@@ -74,10 +66,10 @@ public class Artista {
     public void setDataNascita(LocalDate dataNascita) {
         this.dataNascita = dataNascita;
     }
-    public Set<Evento> getEventi() {
+    public List<Evento> getEventi() {
         return eventi;
     }
-    public void setEventi(Set<Evento> eventi) {
+    public void setEventi(List<Evento> eventi) {
         this.eventi = eventi;
     }
     /*FINE GETTERS & SETTERS*/
@@ -86,7 +78,7 @@ public class Artista {
     /*EQUALS & HASHCODE*/
     @Override
     public int hashCode() {
-        return Objects.hash(nome,cognome,dataNascita);
+        return Objects.hash(nome,dataNascita);
     }
     @Override
     public boolean equals(Object obj) {
@@ -101,11 +93,6 @@ public class Artista {
             if (other.nome != null)
                 return false;
         } else if (!nome.equals(other.nome))
-            return false;
-        if (cognome == null) {
-            if (other.cognome != null)
-                return false;
-        } else if (!cognome.equals(other.cognome))
             return false;
         if (dataNascita == null) {
             if (other.dataNascita != null)
@@ -122,16 +109,10 @@ public class Artista {
     
     }
 
-    public Artista(String nome, String cognome, LocalDate dataNascita, List<Immagine> immagini){
+    public Artista(String nome, LocalDate dataNascita, List<Immagine> immagini){
         this.nome = nome;
-        this.cognome = cognome;
         this.dataNascita = dataNascita;
         this.immagini = immagini;
-    }
-
-    @Override
-    public String toString() {
-        return "Artista: " + nome+ " " + cognome;
     }
 
     /*FINE COSTRUTTORI*/

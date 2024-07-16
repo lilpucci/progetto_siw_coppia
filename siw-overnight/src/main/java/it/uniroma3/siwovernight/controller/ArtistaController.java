@@ -19,7 +19,7 @@ import it.uniroma3.siwovernight.model.Immagine;
 import it.uniroma3.siwovernight.service.ArtistaService;
 import it.uniroma3.siwovernight.service.ImmagineService;
 @Controller
-public class ArtistaController {
+public class ArtistaController extends GlobalController{
 	
 	@Autowired
 	private ArtistaService artistaService;
@@ -88,8 +88,8 @@ public class ArtistaController {
 
 	@PostMapping("/searchArtista")
 	public String searchArtista(Model model, @RequestParam String nome) {
-		model.addAttribute("cuochi", this.artistaService.findByNome(nome)); 
-        return "cuochi.html"; 
+		model.addAttribute("artiti", this.artistaService.findByNome(nome)); 
+        return "artisti.html"; 
 	}
 
 }

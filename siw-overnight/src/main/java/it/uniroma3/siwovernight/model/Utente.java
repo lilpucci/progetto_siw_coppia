@@ -1,38 +1,41 @@
 package it.uniroma3.siwovernight.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Past;
 
 @Entity
 public class Utente {
 
     /*ATTRIBUTI UTENTE*/
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @DateTimeFormat(pattern = "dd-MM-YYYY")
+    @Past
     private LocalDate dataNascita;
 
     private String nome;
     
     private String cognome;
 
+    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    private List<Prenotazione> prenotazioni = new ArrayList<>();
+
     @ElementCollection
     private List<Immagine> immagini;
-   
-    @OneToOne(mappedBy = "utente")
-    private Credenziali credenziali;
     /*FINE ATTRIBUTI UTENTE*/
 
 
@@ -61,6 +64,13 @@ public class Utente {
     }
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public List<Prenotazione> getPrenotazioni() {
+        return prenotazioni;
+    }
+    public void setPrenotazioni(List<Prenotazione> prenotazioni) {
+        this.prenotazioni = prenotazioni;
     }
 
     public List<Immagine> getImmagini() {
@@ -115,12 +125,6 @@ public class Utente {
         } catch (Exception e) {
             return null;
         }
-    }
-    public Credenziali getCredenziali() {
-        return credenziali;
-    }
-    public void setCredenziali(Credenziali credenziali) {
-        this.credenziali = credenziali;
     }
 
 

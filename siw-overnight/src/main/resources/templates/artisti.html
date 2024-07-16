@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Artisti</title>
+    <title>Artisti</title>
     <link rel="stylesheet" href="/css/stile.css" />
 </head>
+
 <body>
-    <div><a href="/"><img src="/images/logo-siwovernight.png" width="50%"/></a></div>
-    <h1>Artisti:</h1>
-	<div th:if="${artisti==null||artisti.isEmpty()}">Non ci sono Artisti nel sistema</div>
-	<ul>
-	 <li th:each="artista:${artisti}">
-	  <a th:href="@{'/artisti' + '/' + ${artista.id}}" th:text="${artista.nome+ ' '+artista.cognome}">Nome Artista Up! 
-	 		 (2000)</a>
-	 </li>
-	</ul>
-	<div>
-		<a href="/admin/formNewArtista">Aggiungi un nuovo Artista </a>
-	</div>
-	<div>
-        <a href="/">torna all'home page</a>
+    <div class="logo-container">
+        <a href="/"><img class="logo" src="/images/logo-siwovernight.png" alt="Logo SiwOvernight" /></a>
     </div>
+
+    <div class="wrapper">
+        <h1>Artisti:</h1>
+
+        <div class="message" th:if="${artisti == null || artisti.isEmpty()}">
+            Non ci sono Artisti nel sistema
+        </div>
+
+        <ul class="ricette-list">
+            <li class="ricetta-item" th:each="artista : ${artisti}">
+                <a th:href="@{'/artisti' + '/' + ${artista.id}}" th:text="${artista.nome}">
+                    Nome Artista
+                </a>
+            </li>
+        </ul>
+
+        <div class="navigation">
+            <a href="/admin/formNewArtista">Aggiungi un nuovo Artista</a>
+        </div>
+
+        <div class="navigation">
+            <a href="/">Torna all'home page</a>
+        </div>
+    </div>
+
 </body>
+
 </html>

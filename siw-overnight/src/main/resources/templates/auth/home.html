@@ -19,8 +19,22 @@
             <a href="/artisti">Artisti</a>
         </div>
         <div class="navigation">
-            <a href="/formSearch">Cerca</a>
+            <a href="/locali">Locali</a>
         </div>
+        <div class="navigation">
+            <a href="/search">Cerca</a>
+        </div>
+
+        <!-- login/register/logout/profile -->
+        <div th:unless="${userDetails}">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Registrati</a>
+         </div>
+         
+         <div th:if="${userDetails}">
+            <a th:href="@{/logout}">Logout</a>
+            <a th:href="@{/utente}">Profilo</a>
+         </div>
     </div>
 </body>
 
