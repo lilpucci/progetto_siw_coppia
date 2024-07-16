@@ -1,5 +1,7 @@
 package it.uniroma3.siwovernight.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,10 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import it.uniroma3.siwovernight.model.Immagine;
 import it.uniroma3.siwovernight.model.Locale;
+import it.uniroma3.siwovernight.service.ImmagineService;
 import it.uniroma3.siwovernight.service.LocaleService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
 
@@ -21,6 +26,9 @@ public class LocaleController extends GlobalController{
 
     @Autowired
     private LocaleService localeService;
+
+    @Autowired
+    private ImmagineService immagineService;
 
     //risponde a una GET HTTP che avra' un URL del tipo /movie/1231
 	@GetMapping("/locali/{id}")//senza s
@@ -60,7 +68,15 @@ public class LocaleController extends GlobalController{
     }
 
     @PostMapping("/admin/addLocale")
-    public String postMethodName(@ModelAttribute Locale locale) {
+    public String postNewLocale(@ModelAttribute Locale locale,@RequestParam("immagine") MultipartFile immagine) throws IOException {
+        if (!immagine.isEmpty()) {
+            Immagine img = new Immagine();
+            img.setFileName(immagine.getOriginalFilename());
+            img.setImageData(immagine.getBytes());
+            locale.getImmagini().add(img);
+            immagineService.save(img);
+        }
+
         this.localeService.save(locale);
         
         return "redirect:/locali/" + locale.getId();

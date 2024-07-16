@@ -1,34 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Locali</title>
+    <link rel="stylesheet" href="/css/stile.css" />
 </head>
+
 <body>
-    <h1>Lista dei Locali</h1>
-
-    <!-- per ogni locale che passo come modello alla vista -->
-    <ul>
-        <li th:each="locale : ${locali}">  <!-- mostro nome del locale e indirizzo (il nome è un ancora che porta alla pagina del locale) -->
-            <a th:href="@{/locali/{id}(id=${locale.id})}">
-                <h3 th:text="${locale.nomeLocale}">nome locale</h3>
-            </a>
-            <p th:text="${locale.indirizzo}">indirizzo locale</p>
-        </li>
-    </ul>
-    
-    <!-- porta alla form di aggiunta del nuovo locale -->
-    <div th:if="${userDetails}">
-        <a th:href="@{/admin/addLocale}">Admin aggiunge Locale</a>
+    <div class="logo-container">
+        <a href="/"><img class="logo" src="/images/logo-siwovernight.png" alt="Logo SiwOvernight" /></a>
     </div>
 
-    <!-- porta alla form di ricerca -->
-    <div>
-        <a th:href="@{/search}">Vai alla pagina di ricerca</a>
-    </div>
+    <div class="wrapper">
+        <h1>Lista dei Locali</h1>
 
-    <div>
-        <a th:href="@{/}">torna all'home page</a>
+        <!-- Per ogni locale che passo come modello alla vista -->
+        <ul class="locale-list">
+            <li th:each="locale : ${locali}" class="locale-item"> <!-- Mostro nome del locale e indirizzo (il nome è un'ancora che porta alla pagina del locale) -->
+                <a th:href="@{/locali/{id}(id=${locale.id})}">
+                    <h3 th:text="${locale.nomeLocale}">nome locale</h3>
+                </a>
+                <p th:text="${locale.indirizzo}">indirizzo locale</p>
+            </li>
+        </ul>
+
+        <!-- Porta alla form di aggiunta del nuovo locale -->
+        <div th:if="${userDetails}" class="admin-actions">
+            <a th:href="@{/admin/addLocale}">Aggiungi Locale</a>
+        </div>
+
+        <!-- Porta alla form di ricerca -->
+        <div class="navigation">
+            <a th:href="@{/search}">Vai alla pagina di ricerca </a>
+        </div>
+
+        <!-- Torna all'home page -->
+        <div class="navigation">
+            <a th:href="@{/}">Torna all'home page</a>
+        </div>
     </div>
-    
 </body>
+
 </html>

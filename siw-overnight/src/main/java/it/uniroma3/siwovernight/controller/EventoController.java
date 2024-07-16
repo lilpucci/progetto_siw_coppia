@@ -1,7 +1,6 @@
 package it.uniroma3.siwovernight.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,9 +71,6 @@ public class EventoController extends GlobalController{
             Immagine img = new Immagine();
             img.setFileName(immagine.getOriginalFilename());
             img.setImageData(immagine.getBytes());
-            if (evento.getImmagini() == null) {
-                evento.setImmagini(new ArrayList<>());
-            }
             evento.getImmagini().add(img);
             immagineService.save(img);
         }
@@ -95,39 +91,39 @@ public class EventoController extends GlobalController{
     }
 
 	@GetMapping("/admin/editEvento/{id}")
-	public String getUpdateForm(@PathVariable Long id, Model model) {
-    Evento evento = eventoService.findById(id);
-    model.addAttribute("evento", evento); // Aggiunge l'oggetto 'evento' al modello
-    model.addAttribute("artista", new Artista()); // Aggiungi un nuovo oggetto Artista al modello
-    model.addAttribute("artisti", this.artistaService.findAll()); // Aggiungi la lista degli artisti al modello se necessario
-    return "formUpdateEvento.html"; // Ritorna il nome del template da renderizzare
-	}
+	public String getUpdateForm(@PathVariable("id") Long id_e, Model model) {
+        if(!getCredenziali().isAdmin()){
+            return "errorPage.html";
+        }    
+        model.addAttribute("evento", eventoService.findById(id_e)); // Aggiunge l'oggetto 'evento' al modello
+        model.addAttribute("artista", new Artista()); // Aggiungi un nuovo oggetto Artista al modello
+        model.addAttribute("artisti", this.artistaService.findAll()); // Aggiungi la lista degli artisti al modello se necessario
+        return "formUpdateEvento.html"; // Ritorna il nome del template da renderizzare
+    }
 
 	@PostMapping("/admin/updateEvento/{id}")
-	public String updateEvento(@PathVariable("id") Long id, @ModelAttribute Evento evento, @RequestParam("immagini") MultipartFile[] immagini) throws IOException {
-    	Evento existingEvento = eventoService.findById(id);
-        if (existingEvento == null) {
-            return "errorPage.html";
-        }
-
-        existingEvento.setTitoloEvento(evento.getTitoloEvento());
-        existingEvento.setDescr(evento.getDescr());
-        existingEvento.setPrezzo(evento.getPrezzo());
-        existingEvento.setDataEvento(evento.getDataEvento());
+	public String updateEvento(@PathVariable("id") Long id_e, @ModelAttribute Evento evento, @RequestParam("immagini") MultipartFile[] immagini) throws IOException {
+    	Evento vecchioEvento= eventoService.findById(id_e);
+        if(evento.getTitoloEvento()!=null) vecchioEvento.setTitoloEvento(evento.getTitoloEvento());
+        if(evento.getDescr()!=null) vecchioEvento.setDescr(evento.getDescr());
+        if(evento.getPrezzo()!=0.0) vecchioEvento.setPrezzo(evento.getPrezzo());
+        if(evento.getDataEvento()!=null) vecchioEvento.setDataEvento(evento.getDataEvento());
+    	
         if (immagini != null && immagini.length > 0) {
             for (MultipartFile immagine : immagini) {
-                if (!immagine.isEmpty()) {
-                    Immagine img = new Immagine();
-                    img.setFileName(immagine.getOriginalFilename());
-                    img.setImageData(immagine.getBytes());
-                    existingEvento.getImmagini().add(img);
-                    immagineService.save(img);
-                }
+            if (!immagine.isEmpty()) {
+                Immagine img = new Immagine();
+                img.setFileName(immagine.getOriginalFilename());
+                img.setImageData(immagine.getBytes());
+                vecchioEvento.getImmagini().add(img);
+                immagineService.save(img);
             }
         }
-    	eventoService.save(existingEvento); // Salva l' evento aggiornato
-    	return "redirect:/artisti/" + evento.getId(); // Redirect alla pagina del evento aggiornato
-	}
+    }
+        eventoService.save(vecchioEvento);
+        return "redirect:/eventi/" + vecchioEvento.getId(); // Redirect alla pagina del evento aggiornato
+	
+    }
 
 	@PostMapping("/searchEvento")
 	public String searchEvento(Model model, @RequestParam String nome) {
@@ -140,19 +136,19 @@ public class EventoController extends GlobalController{
 		//this.ingredienteValidator.validate(ingrediente, bindingResult);
 		//if (!bindingResult.hasErrors()) {
             Artista foundArtista = this.artistaService.findByNome(artista.getNome());	
-                Evento evento = this.eventoService.findById(id);
-                // Aggiungi l'evento al set degli eventi dell'artista
-                // Aggiungi l'evento al set degli eventi dell'artista
-                foundArtista.getEventi().add(evento);
+            Evento evento = this.eventoService.findById(id);
+            // Aggiungi l'evento al set degli eventi dell'artista
+            // Aggiungi l'evento al set degli eventi dell'artista
+            foundArtista.getEventi().add(evento);
 
-                // Aggiungi l'artista al set degli artisti dell'evento
-                evento.getArtisti().add(foundArtista);
+            // Aggiungi l'artista al set degli artisti dell'evento
+            evento.getArtisti().add(foundArtista);
 
-                // Salva le modifiche
-                this.artistaService.save(foundArtista);
-                this.eventoService.save(evento);
-                return "redirect:/admin/editEvento/"+ evento.getId();
-        }
+            // Salva le modifiche
+            this.artistaService.save(foundArtista);
+            this.eventoService.save(evento);
+            return "redirect:/admin/editEvento/"+ evento.getId();
+    }
 }
 
     

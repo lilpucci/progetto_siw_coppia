@@ -9,7 +9,7 @@
 <body>
     <div class="wrapper">
         <h1>Aggiungi Nuovo Locale</h1>
-        <form th:action="@{/admin/addLocale}" th:object="${locale}" method="post">
+        <form th:action="@{/admin/addLocale}" th:object="${locale}" method="post" enctype="multipart/form-data" >
             <div class="input-field">
                 <label for="nomeLocale">Nome Locale:</label>
                 <input type="text" th:field="*{nomeLocale}" required />
@@ -22,8 +22,16 @@
                 <label for="descrizione">Descrizione:</label>
                 <textarea th:field="*{descrizione}" required></textarea>
             </div>
+            <div>
+                <label for="immagine">Aggiungi Immagine:</label>
+                <input type="file" id="immagine" name="immagine" accept="image/*">
+            </div>
             <button type="submit">Aggiungi Locale</button>
         </form>
+        <div class="navigation">
+            <a th:href="@{/locali}">Annulla Operazione</a>
+        </div>
     </div>
+    
 </body>
 </html>

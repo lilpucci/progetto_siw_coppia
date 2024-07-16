@@ -143,5 +143,9 @@ public class Locale {
             return null;
         }
     }
+
+    public boolean hasImmagini(){
+        return this.immagini.size() > 0;
+    }
     
 }

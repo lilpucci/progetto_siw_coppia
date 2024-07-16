@@ -183,4 +183,8 @@ public class Evento {
         this.immagini = immagini;
     }
 
+    public boolean hasImmagini(){
+        return !this.immagini.isEmpty();
+    }
+
 }

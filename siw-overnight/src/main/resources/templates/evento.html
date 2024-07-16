@@ -11,10 +11,10 @@
 
     <div class="wrapper">
         <!-- Immagine dell'evento -->
-        <div th:if="${evento.immagini}">
-            <img th:if="${evento.immagini.size() > 0}" 
-                 th:src="'data:image/jpeg;base64,' + ${evento.immagini.get(0).getBase64()}" 
-                 class="evento-img" alt="Immagine Evento"/>
+        <div th:if="${evento.hasImmagini()==true}">
+            <span th:each="immagine:${evento.immagini}">
+                <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" 
+                 class="evento-img" alt="Immagine Evento"/> </span>
         </div>
 
         <!-- Dettagli dell'evento -->
