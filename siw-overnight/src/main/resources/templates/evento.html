@@ -13,8 +13,7 @@
         <!-- Immagine dell'evento -->
         <div th:if="${evento.hasImmagini()==true}">
             <span th:each="immagine:${evento.immagini}">
-                <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" 
-                 class="evento-img" alt="Immagine Evento"/> </span>
+                <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" alt="Immagine evento"/> </span>
         </div>
 
         <!-- Dettagli dell'evento -->
@@ -29,6 +28,7 @@
             <div class="message">
                 Data Evento: <span th:text="${evento.dataEvento}">Data Evento</span>
             </div>
+            
         </div>
 
         <!-- Artisti dell'evento -->
@@ -43,10 +43,13 @@
             </ul>
         </div>
 
-        <!-- Locale dell'evento -->
         <div>
             <h3>Locale</h3>
-            <p class="message" th:text="${evento.locale.nomeLocale}">Nome Locale</p>
+            <p class="message">
+                <a th:href="@{/locali/{id}(id=${evento.locale.id})}">
+                    <span th:text="${evento.locale.nomeLocale}">Nome Locale</span>
+                </a>
+            </p>
         </div>
 
         <!-- Messaggio per evento non trovato -->

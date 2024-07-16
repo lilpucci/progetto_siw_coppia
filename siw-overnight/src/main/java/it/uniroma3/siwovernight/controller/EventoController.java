@@ -1,7 +1,7 @@
 package it.uniroma3.siwovernight.controller;
 
 import java.io.IOException;
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -102,25 +102,20 @@ public class EventoController extends GlobalController{
     }
 
 	@PostMapping("/admin/updateEvento/{id}")
-	public String updateEvento(@PathVariable("id") Long id_e, @ModelAttribute Evento evento, @RequestParam("immagini") MultipartFile[] immagini) throws IOException {
+	public String updateEvento(@PathVariable("id") Long id_e, @ModelAttribute Evento evento, @RequestParam("immagine") MultipartFile immagine) throws IOException {
     	Evento vecchioEvento= eventoService.findById(id_e);
         if(evento.getTitoloEvento()!=null) vecchioEvento.setTitoloEvento(evento.getTitoloEvento());
         if(evento.getDescr()!=null) vecchioEvento.setDescr(evento.getDescr());
         if(evento.getPrezzo()!=0.0) vecchioEvento.setPrezzo(evento.getPrezzo());
         if(evento.getDataEvento()!=null) vecchioEvento.setDataEvento(evento.getDataEvento());
     	
-        if (immagini != null && immagini.length > 0) {
-            for (MultipartFile immagine : immagini) {
-            if (!immagine.isEmpty()) {
-                Immagine img = new Immagine();
-                img.setFileName(immagine.getOriginalFilename());
-                img.setImageData(immagine.getBytes());
-                vecchioEvento.getImmagini().add(img);
-                immagineService.save(img);
-            }
+        if (!immagine.isEmpty()) {
+            Immagine img = new Immagine();
+            img.setFileName(immagine.getOriginalFilename());
+            img.setImageData(immagine.getBytes());
+            vecchioEvento.getImmagini().add(img);
+            immagineService.save(img);
         }
-    }
-        eventoService.save(vecchioEvento);
         return "redirect:/eventi/" + vecchioEvento.getId(); // Redirect alla pagina del evento aggiornato
 	
     }

@@ -24,11 +24,15 @@ public class Immagine {
     private String fileName;
     /*FINE ATTRIBUTI*/
 
-    
+    public Immagine(){}
     /*HASHCODE & EQUALS*/
     @Override
     public int hashCode() {
-        return Objects.hash(fileName, imageData);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(imageData);
+        result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
+        return result;
     }
 
     @Override

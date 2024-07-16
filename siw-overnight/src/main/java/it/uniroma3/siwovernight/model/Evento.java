@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -49,6 +50,8 @@ public class Evento {
         joinColumns = @JoinColumn(name = "evento_id"),
         inverseJoinColumns = @JoinColumn(name = "artista_id")
     )
+
+
     private List<Artista> artisti = new ArrayList<>();
 
     @ElementCollection
@@ -153,13 +156,14 @@ public class Evento {
     public Evento() {
     }
 
-    public Evento(String titoloEvento, String descr, float prezzo, LocalDate dataEvento, /*LocalTime orario,*/ Locale locale, List<Artista> artisti){
+    public Evento(String titoloEvento, String descr, List<Immagine> immagini,float prezzo, LocalDate dataEvento, /*LocalTime orario,*/ Locale locale, List<Artista> artisti){
         this.titoloEvento = titoloEvento;
         this.descr = descr;
         this.prezzo = prezzo;
         this.dataEvento = dataEvento;
         //this.orarioInizio = orario;
         this.locale = locale;
+        this.immagini = immagini;
         this.artisti = artisti;
     }
     //TODO toString()
