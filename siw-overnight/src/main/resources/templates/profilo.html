@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Profile Page</title>
+    </head>
+
+    <body>
+
+        <h1>Personal Profile</h1>
+
+        <!-- dati dell'utente -->
+        <p>Name: <strong th:text="${utente.nome}">nome utente</strong>.</p>
+        <p>Surname: <strong th:text="${utente.cognome}">cognome utente</strong>.</p>
+        <p th:text="'Birth Date: ' + ${utente.dataNascita}"></p>
+
+        <h3>Current Reservation</h3>
+        <div th:if="${#lists.isEmpty(utente.prenotazioni)}">
+            <p>Non ci sono attualmente ricette per questo cuoco</p>
+        </div>
+        <!-- se ci sono mostro le prenotazioni correnti -->
+        <ul th:unless="${#lists.isEmpty(utente.prenotazioni)}">
+            <li th:each="pren : ${utente.prenotazioni}">
+                <span th:text="${pren.evento.titoloEvento}">titolo Evento</span>
+                <p>tickets: <strong th:text="${pren.num_biglietti}">num_biglietti</strong>.</p>
+            </li>
+        </ul>
+
+    </body>
+
+</html>

@@ -26,8 +26,6 @@ public class Artista {
 
     @NotBlank
     private String nome;
-    @NotBlank
-    private String cognome;
     
     @ElementCollection
     private List<Immagine> immagini;
@@ -55,12 +53,6 @@ public class Artista {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public String getCognome() {
-        return cognome;
-    }
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
-    }
     public List<Immagine> getImmagini() {
         return immagini;
     }
@@ -85,7 +77,7 @@ public class Artista {
     /*EQUALS & HASHCODE*/
     @Override
     public int hashCode() {
-        return Objects.hash(nome,cognome,dataNascita);
+        return Objects.hash(nome,dataNascita);
     }
     @Override
     public boolean equals(Object obj) {
@@ -100,11 +92,6 @@ public class Artista {
             if (other.nome != null)
                 return false;
         } else if (!nome.equals(other.nome))
-            return false;
-        if (cognome == null) {
-            if (other.cognome != null)
-                return false;
-        } else if (!cognome.equals(other.cognome))
             return false;
         if (dataNascita == null) {
             if (other.dataNascita != null)
@@ -121,16 +108,15 @@ public class Artista {
     
     }
 
-    public Artista(String nome, String cognome, LocalDate dataNascita, List<Immagine> immagini){
+    public Artista(String nome, LocalDate dataNascita, List<Immagine> immagini){
         this.nome = nome;
-        this.cognome = cognome;
         this.dataNascita = dataNascita;
         this.immagini = immagini;
     }
 
     @Override
     public String toString() {
-        return "Artista: " + nome+ " " + cognome;
+        return "Artista: " + nome;
     }
 
     /*FINE COSTRUTTORI*/

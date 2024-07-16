@@ -28,10 +28,6 @@ public class ArtistaService {
         return this.artistaRepository.findByNome(nome);
     }
 
-    public Artista findByNomeAndCognome(String nome, String cognome){
-        return this.artistaRepository.findByNomeAndCognome(nome,cognome);
-    }
-
     public Iterable<Artista> findByDataNascita(int year){
         LocalDate dataNascita = LocalDate.of(year,1,1);
         return this.artistaRepository.findByDataNascitaAfter(dataNascita);

@@ -14,8 +14,6 @@ public interface ArtistaRepository extends CrudRepository<Artista,Long>{
 
     public Iterable<Artista> findByNome(String nome);
 
-    public Artista findByNomeAndCognome(String nome, String cognome);
-
     public Iterable<Artista> findByDataNascitaAfter(LocalDate dataNascita);
 
 }
