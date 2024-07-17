@@ -47,12 +47,12 @@ public class AuthConfiguration{
                 // AUTORIZZAZIONE: qui definiamo chi puÃ² accedere a cosa
                 .authorizeHttpRequests( authorize -> authorize
                         // chiunque (autenticato o no) puÃ² accedere alle pagine index, login, register, ai css e alle immagini
-                        .requestMatchers(HttpMethod.GET, "/", "/home", "/register", "/css/**", "/images/**", "favicon.ico","/artisti/**","/eventi/**","/prenotazioni/**","/searchArtista","/searchEvento","/formSearch").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/","/register","/login","/artisti/**","/eventi/**","/locali/**","/search","/error","/css/**","/images/**","favicon.ico").permitAll()
                         // chiunque (autenticato o no) puÃ² mandare richieste POST al punto di accesso per login e register
-                        .requestMatchers(HttpMethod.POST, "/register", "/login","/artisti/**","/eventi/**","/prenotazioni/**","/searchArtista","/searchEvento","/formSearch").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/register","/login","/artisti/**","/eventi/**","/locali/**","/searchArtista","/searchEvento","/searchLocale").permitAll()
                          // utenti registrati (cuochi) possono aggiungere nuovi ingredienti e nuove ricette e modificare e cancellare le proprie ricette
-                        /*.requestMatchers(HttpMethod.POST,"/chef/**").hasAnyAuthority("CHEF","ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/chef/**").hasAnyAuthority("CHEF","ADMIN")//VEDI SE AGGIUNGERE L'AUTH PER GLI ARTISTI COME CHEF  */
+                         .requestMatchers(HttpMethod.GET, "/prenotaEvento/**", "/eliminaPrenotazione/**", "/utente").hasAnyAuthority("USER")
+                         .requestMatchers(HttpMethod.POST, "/prenotaEvento/**").hasAnyAuthority("USER")
                         // solo gli utenti autenticati con ruolo ADMIN possono accedere a risorse con path /admin/**
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority("ADMIN")

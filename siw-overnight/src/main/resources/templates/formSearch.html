@@ -1,30 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Cerca</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+    <title>Cerca</title>
+    <link rel="stylesheet" href="/css/stile.css" />
 </head>
-
 <body>
-	<div><img src="/images/logo-siwovernight.png" width="50%" /></div>
-	<h1>Cerca</h1>
-	<div>
-        <form th:action="@{/searchArtista}" method="post">
-            <label for="nomeArtista">Cerca Artista:</label>
-            <input type="text" id="nomeArtista" name="nome" required>
-            <button type="submit">Cerca</button>
-        </form>
+    <div class="logo-container">
+        <img src="/images/logo-siwovernight.png" class="logo" alt="Logo SiwOvernight"/>
     </div>
-	<div>
-        <form th:action="@{/searchEvento}" method="post">
-            <label for="nomeEvento">Cerca Evento:</label>
-            <input type="text" id="nomeEvento" name="nome" required>
-            <button type="submit">Cerca</button>
-        </form>
-    </div>
-    <div>
-        <a th:href="@{/}">torna alla home page</a>    
+    
+    <div class="wrapper">
+        <h1>Cerca</h1>
+        
+        <div class="form-group">
+            <form th:action="@{/searchArtista}" method="post">
+                <label for="nomeArtista">Cerca Artista:</label>
+                <input type="text" id="nomeArtista" name="nome" required>
+                <button type="submit">Cerca</button>
+            </form>
+        </div>
+        
+        <div class="form-group">
+            <form th:action="@{/searchEvento}" method="post">
+                <label for="nomeEvento">Cerca Evento:</label>
+                <input type="text" id="nomeEvento" name="nome" required>
+                <button type="submit">Cerca</button>
+            </form>
+        </div>
+        
+        <div class="form-group">
+            <form th:action="@{/searchLocale}" method="post">
+                <label for="nomeLocale">Cerca Locale:</label>
+                <input type="text" id="nomeLocale" name="nome" required>
+                <button type="submit">Cerca</button>
+            </form>
+        </div>
+        
+        <div class="navigation">
+            <a th:href="@{/}">Torna alla home page</a>
+        </div>
     </div>
 </body>
-
 </html>

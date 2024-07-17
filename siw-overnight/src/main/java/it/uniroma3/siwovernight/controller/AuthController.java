@@ -106,6 +106,7 @@ public class AuthController {
         return "formSearch.html";
     }
     
+    
 
     //TODO far sparire i warning
 }

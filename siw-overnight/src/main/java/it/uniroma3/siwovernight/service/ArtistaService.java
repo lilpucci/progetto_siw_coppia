@@ -24,7 +24,7 @@ public class ArtistaService {
         return this.artistaRepository.findAll();
     }
 
-    public Iterable<Artista> findByNome(String nome){
+    public Artista findByNome(String nome){
         return this.artistaRepository.findByNome(nome);
     }
 

@@ -12,7 +12,7 @@ public interface ArtistaRepository extends CrudRepository<Artista,Long>{
     
     public boolean existsByNome(String nome);
 
-    public Iterable<Artista> findByNome(String nome);
+    public Artista findByNome(String nome);
 
     public Iterable<Artista> findByDataNascitaAfter(LocalDate dataNascita);
 

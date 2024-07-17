@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,9 @@ public class Locale {
     @OneToMany(mappedBy = "locale", cascade = CascadeType.ALL)
     @OrderBy("dataEvento ASC")  //cosÃ¬ quando prendo gli eventi dal database saranno caricati in ordine crescente rispetto alla dataEvento
     private List<Evento> eventi = new ArrayList<>();
+
+    @ElementCollection
+    private List<Immagine> immagini = new ArrayList<>();
     /*FINE ATTRIBUTI LOCALE*/
 
     
@@ -60,6 +64,12 @@ public class Locale {
     }
     public void setEventi(List<Evento> eventi) {
         this.eventi = eventi;
+    }
+    public List<Immagine> getImmagini() {
+        return immagini;
+    }
+    public void setImmagini(List<Immagine> immagini) {
+        this.immagini = immagini;
     }
     /*FINE GETTER & SETTER*/
 
@@ -117,4 +127,22 @@ public class Locale {
     }
     //TODO toString()
     /*FINE COSTRUTTORI*/
+
+    /*METODI PER LE IMMAGINI*/
+    public Immagine getFirstImage(){
+        return this.immagini.get(0);
+    } 
+
+    public List<Immagine> getImmaginiDopoFirst(){
+        try {
+            return this.immagini.subList(1, this.immagini.size());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public boolean hasImmagini(){
+        return !this.immagini.isEmpty();
+    }
+    
 }

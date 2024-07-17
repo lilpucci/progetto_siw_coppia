@@ -1,5 +1,7 @@
 package it.uniroma3.siwovernight.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,9 +10,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import it.uniroma3.siwovernight.model.Locale;
+import it.uniroma3.siwovernight.service.ImmagineService;
 import it.uniroma3.siwovernight.service.LocaleService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
 
@@ -22,12 +26,15 @@ public class LocaleController extends GlobalController{
     @Autowired
     private LocaleService localeService;
 
-    //risponde a una GET HTTP che avra' un URL del tipo /movie/1231
-	@GetMapping("/locali/{id}")//senza s
+    @Autowired
+    private ImmagineService immagineService;
+
+    //restituisce la pagina del singolo locale
+	@GetMapping("/locali/{id}")
 	public String getLocale(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("locale", this.localeService.findById(id));
 		return "locale.html";
-	}//parametro id, viene convertito in Long e passato come parametro
+	}
 	
     @GetMapping("/locali")  //restituisce l'html con tutti i locali
     public String getLocali(Model model) {
@@ -60,9 +67,11 @@ public class LocaleController extends GlobalController{
     }
 
     @PostMapping("/admin/addLocale")
-    public String postMethodName(@ModelAttribute Locale locale) {
+    public String postNewLocale(@ModelAttribute Locale locale, @RequestParam("immagine") MultipartFile i) throws IOException {
+        //gestione delle foto
+        this.immagineService.addFotoToLocale(locale, i);
+        //salvataggio del nuovo locale
         this.localeService.save(locale);
-        
         return "redirect:/locali/" + locale.getId();
     }
     /*FINE AGGIUNTA LOCALI*/

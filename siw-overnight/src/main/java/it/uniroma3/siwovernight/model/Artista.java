@@ -28,9 +28,9 @@ public class Artista {
     private String nome;
     
     @ElementCollection
-    private List<Immagine> immagini;
+    private List<Immagine> immagini = new ArrayList<>();
     
-    
+    //TODO decidere se togliere data nascita per artista
     @Past
     @DateTimeFormat(pattern="dd-MM_yyyy")
     private LocalDate dataNascita;
