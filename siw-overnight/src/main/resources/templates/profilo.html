@@ -3,29 +3,39 @@
 <html>
     <head>
         <title>Profile Page</title>
+        <link rel="stylesheet" href="/css/stile.css" />
     </head>
 
     <body>
-
+        <div class="logo-container">
+            <a href="/"><img class="logo" src="/images/logo-siwovernight.png" alt="Logo SiwOvernight" /></a>
+        </div>
         <h1>Personal Profile</h1>
 
-        <!-- dati dell'utente -->
-        <p>Name: <strong th:text="${utente.nome}">nome utente</strong>.</p>
-        <p>Surname: <strong th:text="${utente.cognome}">cognome utente</strong>.</p>
-        <p th:text="'Birth Date: ' + ${utente.dataNascita}"></p>
+        <div class="wrapper" th:object="${utente}">
+            <!-- dati dell'utente -->
+            <p>Name: <strong th:text="${utente.nome}">nome utente</strong>.</p>
+            <p>Surname: <strong th:text="${utente.cognome}">cognome utente</strong>.</p>
+            <p th:text="'Birth Date: ' + ${utente.dataNascita}"></p>
 
-        <h3>Current Reservation</h3>
-        <div th:if="${#lists.isEmpty(utente.prenotazioni)}">
-            <p>Non ci sono attualmente ricette per questo cuoco</p>
+            <h3>Current Reservation</h3>
+            <div th:if="${#lists.isEmpty(utente.prenotazioni)}">
+                <p>Non ci sono attualmente prenotazioni </p>
+            </div>
+            <!-- se ci sono mostro le prenotazioni correnti -->
+            
+            <ul class="prenotazione" th:unless="${#lists.isEmpty(utente.prenotazioni)}">
+                <li class="prenotazione" th:each="prenotazione : ${utente.prenotazioni}">
+                    <a th:href="@{/prenotazioni/{id}(id=${prenotazione.id})}">
+                        <span th:text="${prenotazione.evento.titoloEvento}">Nome Evento</span>
+                    </a>    
+                </li>
+            </ul>
+
+            <div class="navigation">
+                <a th:href="@{/}">Torna alla home</a>    
+            </div>
         </div>
-        <!-- se ci sono mostro le prenotazioni correnti -->
-        <ul th:unless="${#lists.isEmpty(utente.prenotazioni)}">
-            <li th:each="pren : ${utente.prenotazioni}">
-                <span th:text="${pren.evento.titoloEvento}">titolo Evento</span>
-                <p>tickets: <strong th:text="${pren.num_biglietti}">num_biglietti</strong>.</p>
-            </li>
-        </ul>
-
     </body>
 
 </html>

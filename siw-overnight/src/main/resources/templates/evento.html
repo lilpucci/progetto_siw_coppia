@@ -6,15 +6,14 @@
 </head>
 <body>
     <div class="logo-container">
-        <a href="/"><img src="/images/logo-siwovernight.png" class="logo" /></a>
+        <a href="/"><img src="/images/logo-siwovernight.png" class="logo" alt="Logo SiwOvernight" /></a>
     </div>
 
     <div class="wrapper">
         <!-- Immagine dell'evento -->
-        <div th:if="${evento.immagini}">
-            <img th:if="${evento.immagini.size() > 0}" 
-                 th:src="'data:image/jpeg;base64,' + ${evento.immagini.get(0).getBase64()}" 
-                 class="evento-img"/>
+        <div th:if="${evento.hasImmagini()==true}">
+            <span th:each="immagine:${evento.immagini}">
+                <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" alt="Immagine evento"/> </span>
         </div>
 
         <!-- Dettagli dell'evento -->
@@ -27,54 +26,62 @@
                 Prezzo: <span th:text="${evento.prezzo}">Prezzo</span>
             </div>
             <div class="message">
-                Data Evento: <span th:text="${#dates.format(evento.dataEvento, 'dd-MM-yyyy')}">Data Evento</span>
+                Data Evento: <span th:text="${evento.dataEvento}">Data Evento</span>
             </div>
+            
         </div>
 
         <!-- Artisti dell'evento -->
         <div>
             <h3>Artisti</h3>
-            <ul class="evento-list">
-                <li class="evento-item" th:each="artista : ${evento.artisti}">
-                    <span th:text="${artista.nome}">Nome Artista</span>
+            <ul class="artisti-list">
+                <li class="artisti-item" th:each="artista : ${evento.artisti}">
+                    <a th:href="@{/artisti/{id}(id=${artista.id})}">
+                     <span th:text="${artista.nome}">Nome Artista</span>
+                     </a>
                 </li>
             </ul>
         </div>
 
-        <!-- Locale dell'evento -->
         <div>
             <h3>Locale</h3>
-            <p class="message" th:text="${evento.locale.nome}">Nome Locale</p>
+            <p class="message">
+                <a th:href="@{/locali/{id}(id=${evento.locale.id})}">
+                    <span th:text="${evento.locale.nomeLocale}">Nome Locale</span>
+                </a>
+            </p>
         </div>
 
         <!-- Messaggio per evento non trovato -->
         <div class="message" th:if="${evento == null}">Evento non trovato</div>
 
-        <!-- Link per aggiornare l'evento -->
-        <div class="navigation">
-            <a th:href="@{/admin/editEvento/{id}(id=${evento.id})}">Aggiorna Evento</a>
+        <!-- Controllo se l'utente è loggato e se è admin -->
+        <div th:if="${userDetails}">
+            <!-- Link per aggiornare l'evento -->
+            <div class="navigation">
+                <a th:href="@{/admin/updateEvento/{id}(id=${evento.id})}">Aggiorna Evento</a>
+            </div>
+
+            <!-- Cliccando qui vado alla form per prenotarmi a questo evento -->
+            <div class="navigation" th:if="${userDetails}"> <!-- se ci sono gli userDetail sei loggato -> quindi registrato -->
+                <a th:href="@{/prenotaEvento/{id}(id=${evento.id})}">Prenotati per questo evento</a>
+            </div>
+            
+            <!-- Form per eliminare l'evento -->
+            <form th:action="@{/admin/deleteEvento/{id}(id=${evento.id})}" method="post" class="navigation">
+                <input type="hidden" name="_method" value="delete"> <!-- Simula DELETE -->
+                <button type="submit">Elimina Evento</button>
+            </form>
+        </div>
+        <!-- Messaggio per l'utente non loggato -->
+        <div th:unless="${userDetails}">
+            <h3>Loggati per avere accesso alle operazioni</h3>
         </div>
 
         <!-- Link per tornare alla lista degli eventi -->
         <div class="navigation">
             <a th:href="@{/eventi}">Torna alla lista degli eventi</a>
         </div>
-
-        <!-- Form per eliminare l'evento -->
-        <form th:action="@{/admin/deleteEvento/{id}(id=${evento.id})}" method="post" class="navigation">
-            <input type="hidden" name="_method" value="delete"> <!-- Simula DELETE -->
-            <button type="submit">Elimina Evento</button>
-        </form>
-
-        <!-- Link per tornare alla lista degli eventi (duplicato, puoi rimuoverlo se non necessario) -->
-        <div class="navigation">
-            <a th:href="@{/eventi}">Torna alla lista degli eventi</a>
-        </div>
-
-        <!-- Cliccando qui vado alla form per prenotarmi a questo evento -->
-         <div class="navigation" th:if="${userDetails}"> <!-- se ci sono gli userDetail sei loggato -> quindi registrato -->
-            <a th:href="@{/prenotaEvento/{id}(id=${evento.id})}">Prenotati per questo evento</a>
-         </div>
     </div>
 </body>
 </html>

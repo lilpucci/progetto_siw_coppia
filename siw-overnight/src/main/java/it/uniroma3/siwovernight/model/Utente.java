@@ -127,5 +127,9 @@ public class Utente {
         }
     }
 
+    public boolean hasImmagini(){
+        return !this.immagini.isEmpty();
+    }
+
 
 }

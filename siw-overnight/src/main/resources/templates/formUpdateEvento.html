@@ -5,50 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aggiorna Evento</title>
     <link rel="stylesheet" href="/css/stile.css" />
+
+<!-- stile per la barra di ricerca -->
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    #myInput {
+      background-image: url('/css/searchicon.png');
+      background-position: 10px 12px;
+      background-repeat: no-repeat;
+      width: 100%;
+      font-size: 16px;
+      padding: 12px 20px 12px 40px;
+      border: 1px solid #ddd;
+      margin-bottom: 12px;
+    }
+    
+    #myUL {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    #myUL li a {
+      border: 1px solid #ddd;
+      margin-top: -1px; /* Prevent double borders */
+      background-color: #f6f6f6;
+      padding: 12px;
+      text-decoration: none;
+      font-size: 18px;
+      color: black;
+      display: block
+    }
+    
+    #myUL li a:hover:not(.header) {
+      background-color: #eee;
+    }
+    </style>
+
+
+
 </head>
 <body>
-    <div><a href="/"><img src="/images/logo-siwovernight.png" width="50%" /></a></div>
-
-    <h1>Aggiorna Evento</h1>
-    <form th:action="@{/admin/updateEvento/{id}(id=${evento.id})}" method="post" th:object="${evento}" enctype="multipart/form-data">
-        <div>
-            <label for="titoloEvento">Titolo Evento:</label>
-            <input type="text" id="titoloEvento" th:field="*{titoloEvento}" required>
-        </div>
-        <div>
-            <label for="descr">Descrizione:</label>
-            <input type="text" id="descr" th:field="*{descr}" required>
-        </div>
-        <div>
-            <label for="prezzo">Prezzo:</label>
-            <input type="number" id="prezzo" th:field="*{prezzo}" step="0.01" required>
-        </div>
-        <div>
-            <label for="dataEvento">Data Evento:</label>
-            <input type="date" id="dataEvento" th:field="*{dataEvento}" required>
-        </div>
-        <div>
-            <label for="locale">Locale:</label>
-            <select id="locale" th:field="*{locale.id}" required>
-                <option th:each="locale : ${locali}" th:value="${locale.id}" th:text="${locale.nomeLocale}">Seleziona un locale</option>
-            </select>
-        </div>
-        <div>
-            <label for="artisti">Artisti:</label>
-            <select id="artisti" th:field="*{artisti}" multiple required>
-                <option th:each="artista : ${artisti}" th:value="${artista.id}" th:text="${artista.nome} + ' ' + ${artista.cognome}">Seleziona artisti</option>
-            </select>
-        </div>
-        <div>
-            <label for="immagini">Immagini:</label>
-            <input type="file" id="immagini" name="immagini" accept="image/*" multiple />
-        </div>
-        <div>
-            <button type="submit">Aggiorna Evento</button>
-        </div>
-    </form>
-    <div>
-        <a th:href="@{/eventi/{id}(id=${evento.id})}">Torna ai dettagli dell'evento</a>
+    <div class="logo-container">
+        <a href="/"><img src="/images/logo-siwovernight.png" class="logo" alt="Logo SiwOvernight"/></a>
     </div>
+
+    <div class="wrapper">
+        <h1>Aggiorna Evento</h1>
+        <form th:action="@{/admin/updateEvento/{id}(id=${evento.id})}" method="post" th:object="${evento}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="titoloEvento">Titolo Evento:</label>
+                <input type="text" id="titoloEvento" th:field="*{titoloEvento}" required>
+            </div>
+            <div class="form-group">
+                <label for="descr">Descrizione:</label>
+                <input type="text" id="descr" th:field="*{descr}" required>
+            </div>
+            <div class="form-group">
+                <label for="prezzo">Prezzo:</label>
+                <input type="number" id="prezzo" th:field="*{prezzo}" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="dataEvento">Data Evento:</label>
+                <input type="date" id="dataEvento" th:field="*{dataEvento}" required>
+            </div>
+            <div class="form-group">
+                <label for="locale.nomeLocale">Locale:</label>
+                <input type="text" id="locale.nomeLocale" th:field="*{locale.nomeLocale}" required>
+            </div>
+            <div class="form-group">
+                <label for="immagine">Immagine:</label>
+                <input type="file" id="immagine" name="immagine" accept="image/*" multiple />
+            </div>
+            <button type="submit">Aggiorna Evento</button>
+        </form>
+
+        <!-- Form per aggiungere un artista all'evento -->
+        <h2>Aggiungi Artista</h2>
+        <form th:action="@{/admin/addArtistiToEvento/{evento_id}(evento_id=${evento.id})}" method="post" th:object="${artista}">
+            <div class="form-group">
+                <label for="nome">Nome Artista:</label>
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Artist for names.." title="Type in a name">
+            </div>
+            <div class="form-group">
+                <button type="submit">Aggiungi Artista</button>
+            </div>
+        </form>
+
+        <div class="navigation">
+            <a th:href="@{/eventi/{id}(id=${evento.id})}">Torna ai dettagli dell'evento</a>
+        </div>
+    </div>
+
+<!-- script per barra di ricerca -->
+<script>
+    function myFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+
+
+
 </body>
 </html>

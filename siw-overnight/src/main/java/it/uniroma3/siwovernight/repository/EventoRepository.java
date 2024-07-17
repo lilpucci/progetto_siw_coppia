@@ -1,5 +1,7 @@
 package it.uniroma3.siwovernight.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +20,6 @@ public interface EventoRepository extends CrudRepository<Evento,Long>{
     //TODO tutti gli eventi dopo una certa data
 
     @Query("SELECT e FROM Evento e JOIN e.artisti a WHERE a.nome = :nomeArtista")
-    public Iterable<Evento> findByArtista (@Param("nomeArtista") String nomeArtista);
+    public List<Evento> findByArtista (@Param("nomeArtista") String nomeArtista);
 
 }

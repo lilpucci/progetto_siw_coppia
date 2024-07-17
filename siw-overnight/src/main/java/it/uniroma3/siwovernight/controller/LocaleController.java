@@ -57,7 +57,7 @@ public class LocaleController extends GlobalController{
     /*AGGIUNTA DEL LOCALE*/
     @GetMapping("/admin/addLocale")
     public String getFormNewLocale(Model model) {
-
+        //controllo dei permessi
         if(!getCredenziali().isAdmin()){
             return "errorPage.html";
         }

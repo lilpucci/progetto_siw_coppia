@@ -1,6 +1,7 @@
 package it.uniroma3.siwovernight.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,10 +10,12 @@ import org.springframework.ui.Model;
 import it.uniroma3.siwovernight.model.Artista;
 import it.uniroma3.siwovernight.model.Evento;
 import it.uniroma3.siwovernight.model.Locale;
+import it.uniroma3.siwovernight.model.Prenotazione;
 import it.uniroma3.siwovernight.service.ArtistaService;
 import it.uniroma3.siwovernight.service.EventoService;
 import it.uniroma3.siwovernight.service.ImmagineService;
 import it.uniroma3.siwovernight.service.LocaleService;
+import it.uniroma3.siwovernight.service.PrenotazioneService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,10 +37,15 @@ public class EventoController extends GlobalController {
     private LocaleService localeService;
 
     @Autowired
-    private ImmagineService immagineService;
+    private ArtistaService artistaService;
 
     @Autowired
-    private ArtistaService artistaService;
+    private PrenotazioneService prenotazioneService;
+
+    @Autowired
+    private ImmagineService immagineService;
+
+    
 
 
     /*PAGINA SINGOLO EVENTO*/
@@ -63,6 +71,7 @@ public class EventoController extends GlobalController {
         return "eventi.html";
     }
 
+    /*EVENTO IN BASE AL NOME*/
     @PostMapping("/searchEvento")
 	public String searchEvento(Model model, @RequestParam String nome) {
 		model.addAttribute("eventi", this.eventoService.findByNomeEvento(nome)); 
@@ -82,34 +91,57 @@ public class EventoController extends GlobalController {
 		model.addAttribute("evento", new Evento());
 		return "formNewEvento.html";
 	}
+
+
+    @PostMapping("/admin/newEvento/{localeId}")
+    public String newEvento(@PathVariable("localeId") Long localeId, @ModelAttribute Evento evento, @RequestParam("immagine") MultipartFile immagine) throws IOException {
+        this.immagineService.addFotoToEvento(evento, immagine);
+        Locale locale = this.localeService.findById(localeId);
+        evento.setLocale(locale); // Associa il locale all'evento
+        locale.getEventi().add(evento); // Associa l'evento al locale
+        this.eventoService.save(evento); // Salva l'evento
+        this.localeService.save(locale); // Salva il locale
+        return "redirect:/locali/" + locale.getId(); // Reindirizza alla pagina del locale
+    }
 	
-	/*SALVATAGGIO DEL NUOVO EVENTO*/  //cambierei il nome per farlo uguale alla richiesta get
+	/*SALVATAGGIO DEL NUOVO EVENTO  //cambierei il nome per farlo uguale alla richiesta get
 	@PostMapping("/admin/newEvento/{id}")
-	public String postNewEvento(@ModelAttribute("evento") Evento evento, @PathVariable("id") Long id_loc, @RequestParam("immagine") MultipartFile immagine) throws IOException {
-		
+	public String postNewEvento(@ModelAttribute("evento") Evento evento, @PathVariable("id") Long id_loc, @RequestParam("immagine") MultipartFile immagine) throws IOException {	
         Locale locale = this.localeService.findById(id_loc);
         //aggiungo l'evento alla lista del locale
+        evento.setLocale(locale);
         locale.getEventi().add(evento);
         //imposto il locale dell'evento
-        evento.setLocale(locale);
         //aggiungo la foto al locale
         this.immagineService.addFotoToEvento(evento, immagine);
         //salvo il nuovo evento
 		this.eventoService.save(evento);
-
+        this.localeService.save(locale);
 		return "redirect:/eventi/" + evento.getId();
 	}
 	
+
+    /*CANCELLAZIONE DI UN EVENTO */
 	@PostMapping("/admin/deleteEvento/{id}")
     public String deleteEvento(@PathVariable Long id) {
         if(!getCredenziali().isAdmin()){
             return "errorPage.html";
         }
+        //prendo l'evento che voglio cancellare
+        Evento e = this.eventoService.findById(id);
+        //prima di cancellare l'evento devo rimuovere tutte le prenotazioni relative all'evento
+        List<Prenotazione> prenEv = this.prenotazioneService.findByEvento(e);
+        for(Prenotazione p : prenEv){
+            this.prenotazioneService.delete(p);
+        }
+        //cancello l'evento
         this.eventoService.deleteById(id);
-        return "redirect:/artisti"; // Redirect alla lista degli artisti dopo la cancellazione
+        return "redirect:/eventi";
     }
+    /*FINE CANCELLAZIONE DI UN EVENTO */
 
 
+    /*MODIFICA DEI DATI DI UN EVENTO */
     //se abbiamo capito bene con no cap non funzionano bene
 	@GetMapping("/admin/updateEvento/{id}")
 	public String getUpdateForm(@PathVariable Long id, Model model) {
@@ -130,13 +162,17 @@ public class EventoController extends GlobalController {
         evento.setLocale(this.eventoService.findById(id_e).getLocale());
         //aggiungo al nuovo evento le vecchie foto
         evento.setImmagini(this.eventoService.findById(id_e).getImmagini());
+        evento.setArtisti(this.eventoService.findById(id_e).getArtisti());
         evento.setId(id_e);
         //aggiungo la nuova foto
         this.immagineService.addFotoToEvento(evento, immagine);
         this.eventoService.save(evento);
     	return "redirect:/eventi/" + id_e; // Redirect alla pagina del evento aggiornato
 	}
+    /*FINE MODIFICA DEI DATI DI UN EVENTO */
 
+
+    /*AGGIUNTA DI UN ARTISTA ALL'EVENTO */
     @PostMapping("/admin/addArtistiToEvento/{evento_id}")
 	public String addArtisti(/*@Valid*/ @PathVariable("evento_id") Long id,  @ModelAttribute("artista") Artista artista){/* ,BindingResult bindingResult*/
 		//this.ingredienteValidator.validate(ingrediente, bindingResult);
@@ -153,33 +189,8 @@ public class EventoController extends GlobalController {
         // Salva le modifiche
         this.artistaService.save(foundArtista);
         this.eventoService.save(evento);
-        return "redirect:/admin/editEvento/"+ evento.getId();
+        return "redirect:/admin/updateEvento/"+ evento.getId();
     }
-
-	
-
-/* 
-    @GetMapping("/admin/addFoto/{id}")
-    public String getFormAddFoto(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("evento", this.eventoService.findById(id));
-        return "formAddFoto.html";
-    }
-
-    @PostMapping("/admin/addFoto/{id}")
-    public String postAddFoto(@PathVariable("id") Long id, @RequestParam("immagine") MultipartFile immagine) throws IOException {
-        Evento eventoOld = this.eventoService.findById(id);
-
-        if (!immagine.isEmpty()) {
-            Immagine img = new Immagine();
-            img.setFileName(immagine.getOriginalFilename());
-            img.setImageData(immagine.getBytes());
-            eventoOld.getImmagini().add(img);
-            immagineService.save(img);
-        }
-        
-        return "redirect:/eventi/" + id;
-    }*/
-    
     
 
 }

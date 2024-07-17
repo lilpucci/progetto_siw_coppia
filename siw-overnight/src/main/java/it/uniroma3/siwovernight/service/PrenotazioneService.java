@@ -1,9 +1,12 @@
 
 package it.uniroma3.siwovernight.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.uniroma3.siwovernight.model.Evento;
 import it.uniroma3.siwovernight.model.Prenotazione;
 import it.uniroma3.siwovernight.repository.PrenotazioneRepository;
 
@@ -20,6 +23,10 @@ public class PrenotazioneService {
 
     public Iterable<Prenotazione> findAll(){
         return this.prenotazioneRepository.findAll();
+    }
+
+    public List<Prenotazione> findByEvento(Evento e){
+        return this.prenotazioneRepository.findByEvento(e);
     }
     /*FINE RICERCHE */
 

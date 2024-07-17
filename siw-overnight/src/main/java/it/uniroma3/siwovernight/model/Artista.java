@@ -40,7 +40,7 @@ public class Artista {
     /*FINE ATTRIBUTI ARTISTA*/
 
 
-    /*GETTERS & ListTERS*/
+    /*GETTERS & SETTERS*/
     public Long getId() {
         return id;
     }
@@ -132,6 +132,10 @@ public class Artista {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public boolean hasImmagini(){
+        return !this.immagini.isEmpty();
     }
   
 

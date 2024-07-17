@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Prenotazione</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+    <div class="logo-container">
+        <a href="/"><img class="logo" src="/images/logo-siwovernight.png" alt="Logo SiwOvernight" /></a>
+    </div>
+    
+    <div class="wrapper">
+        <h1 th:text="${prenotazione.id}">Codice Prenotazione</h1>
+        
+        <div class="message">
+            Numero Biglietti: <span th:text="${prenotazione.num_biglietti}">2000</span>
+        </div>
+        <div class="message">
+            Evento: <span th:text="${prenotazione.evento.titoloEvento}">2000</span>
+        </div>
+
+        <!-- Lista degli artisti -->
+        <ul class="artista" th:unless="${#lists.isEmpty(prenotazione.evento.artisti)}">
+            <li class="artista" th:each="artista : ${prenotazione.evento.artisti}">
+                <span> Artisti: </span><span th:text="${artista.nome}">Nome Artista</span>
+            </li>
+        </ul>
+        
+        <div>
+            <form class="navigation" th:action="@{/eliminaPrenotazione/{id}(id=${prenotazione.id})}" method="post">
+                <input type="hidden" name="_method" value="delete"> <!-- Simula DELETE -->
+                <button type="submit">Elimina prenotazione</button>
+            </form>
+        </div>
+
+        <div class="navigation">
+            <a th:href="@{/utente}">Torna alla pagina dell'utente</a>    
+        </div>
+    </div>
+
+</body>
+
+</html>

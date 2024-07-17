@@ -16,7 +16,7 @@
     <div class="wrapper" th:object="${locale}">
         <h1>Dettagli del Locale</h1>
 
-        <div th:if="${locale.hasImmagini()}">
+        <div th:if="${locale.hasImmagini() == true}">
             <img th:src="'data:image/jpeg;base64,' + ${locale.getFirstImmagine().getBase64()}" alt="Immagine locale" class="locale-image" />
         </div>
 
@@ -43,7 +43,7 @@
             </ul>
         </div>
 
-        <!-- Controllo se l'utente è loggato e se è admin -->
+        <!-- Controllo se l'utente è loggato -->
         <div th:if="${userDetails}">
             <div>
                 <a th:href="@{/admin/newEvento/{id}(id=${locale.id})}">Aggiungi un evento al Locale</a>

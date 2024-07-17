@@ -24,7 +24,7 @@ public class Locale {
     private String nomeLocale;
     private String indirizzo; //-> si potrebbe trasformare in una classe (nome, civico, cittÃ )
     private String descrizione;
-                                //tutte le operazioni si propagano //gli eventi non vengono caricati dal database finchÃ¨ non sono necessari
+                                //tutte le operazioni si propagano
     @OneToMany(mappedBy = "locale", cascade = CascadeType.ALL)
     @OrderBy("dataEvento ASC")  //cosÃ¬ quando prendo gli eventi dal database saranno caricati in ordine crescente rispetto alla dataEvento
     private List<Evento> eventi = new ArrayList<>();
@@ -129,7 +129,7 @@ public class Locale {
     /*FINE COSTRUTTORI*/
 
     /*METODI PER LE IMMAGINI*/
-    public Immagine getFirstImage(){
+    public Immagine getFirstImmagine(){
         return this.immagini.get(0);
     } 
 

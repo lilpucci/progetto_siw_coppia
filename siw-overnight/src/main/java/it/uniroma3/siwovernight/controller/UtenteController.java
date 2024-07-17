@@ -27,6 +27,5 @@ public class UtenteController extends GlobalController{
         model.addAttribute("utente", this.utenteService.findById(u.getId()));
         return "profilo.html";
     }
-    
 
 }
