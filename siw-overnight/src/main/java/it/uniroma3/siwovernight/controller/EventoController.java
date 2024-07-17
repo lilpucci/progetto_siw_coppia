@@ -1,6 +1,7 @@
 package it.uniroma3.siwovernight.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +11,12 @@ import it.uniroma3.siwovernight.model.Artista;
 import it.uniroma3.siwovernight.model.Evento;
 import it.uniroma3.siwovernight.model.Immagine;
 import it.uniroma3.siwovernight.model.Locale;
+import it.uniroma3.siwovernight.model.Prenotazione;
 import it.uniroma3.siwovernight.service.ArtistaService;
 import it.uniroma3.siwovernight.service.EventoService;
 import it.uniroma3.siwovernight.service.ImmagineService;
 import it.uniroma3.siwovernight.service.LocaleService;
+import it.uniroma3.siwovernight.service.PrenotazioneService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,6 +40,8 @@ public class EventoController extends GlobalController{
     @Autowired
     private ImmagineService immagineService;
 
+    @Autowired
+    private PrenotazioneService prenotazioneService;
     @GetMapping("/eventi/{id}")
     public String getEvento(@PathVariable("id") Long id, Model model) {
         model.addAttribute("evento", this.eventoService.findById(id));
@@ -85,8 +90,16 @@ public class EventoController extends GlobalController{
 
 	@PostMapping("/admin/deleteEvento/{id}")
     public String deleteEvento(@PathVariable Long id) {
+        if(!getCredenziali().isAdmin()){
+			return "errorPage.html";
+		}
+		Evento e = this.eventoService.findById(id);
+		List<Prenotazione> pe = this.prenotazioneService.findByEvento(e);
+		for(Prenotazione p : pe){
+			this.prenotazioneService.delete(p);
+		}
         eventoService.deleteById(id);
-        return "redirect:/artisti"; // Redirect alla lista degli artisti dopo la cancellazione
+        return "redirect:/eventi"; // Redirect alla lista degli artisti dopo la cancellazione
     }
 
 	@GetMapping("/admin/editEvento/{id}")
