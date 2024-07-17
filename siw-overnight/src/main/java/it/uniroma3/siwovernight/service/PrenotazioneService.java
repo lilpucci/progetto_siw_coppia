@@ -25,8 +25,8 @@ public class PrenotazioneService {
         return this.prenotazioneRepository.findAll();
     }
 
-    public List<Prenotazione> findByEvento(Evento e){
-        return this.prenotazioneRepository.findByEvento(e);
+    public List<Prenotazione> findByEvento(Evento evento){
+        return this.prenotazioneRepository.findByEvento(evento);
     }
     /*FINE RICERCHE */
 
@@ -44,6 +44,7 @@ public class PrenotazioneService {
     public void delete(Prenotazione Prenotazione){
         this.prenotazioneRepository.delete(Prenotazione);
     }
+
     /*FINE CANCELLAZIONE */
     
 }    

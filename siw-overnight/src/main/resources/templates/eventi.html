@@ -22,9 +22,10 @@
         <!-- Lista degli eventi -->
         <ul class="eventi-list">
             <li th:each="evento : ${eventi}" class="evento-item">
-                <a th:href="@{/eventi/{id}(id=${evento.id})}" th:text="${evento.titoloEvento}">Titolo Evento</a>
+                <a th:href="@{'/eventi/' + ${evento.id}}" th:text="${evento.titoloEvento}">Titolo Evento</a>
             </li>
         </ul>
+
         <!-- Messaggio per l'utente non loggato -->
         <div th:unless="${userDetails}">
             <h3>Loggati per avere accesso alle operazioni</h3>

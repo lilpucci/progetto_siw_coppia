@@ -15,5 +15,6 @@ public interface CredenzialiRepository extends CrudRepository<Credenziali, Long>
     public Optional<Credenziali> findByUsername(String username);
     //restituisce le credenziali in base all'id
     public Optional<Credenziali> findById(Long id);
-    
+
+    //TODO capire perchÃ¨ ho questi warning
 }

@@ -35,7 +35,7 @@ public class Utente {
     private List<Prenotazione> prenotazioni = new ArrayList<>();
 
     @ElementCollection
-    private List<Immagine> immagini = new ArrayList<>();
+    private List<Immagine> immagini= new ArrayList<>();
     /*FINE ATTRIBUTI UTENTE*/
 
 
@@ -125,10 +125,6 @@ public class Utente {
         } catch (Exception e) {
             return null;
         }
-    }
-
-    public boolean hasImmagini(){
-        return !this.immagini.isEmpty();
     }
 
 

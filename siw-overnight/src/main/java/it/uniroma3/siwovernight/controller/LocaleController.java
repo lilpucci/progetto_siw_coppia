@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import it.uniroma3.siwovernight.model.Immagine;
 import it.uniroma3.siwovernight.model.Locale;
 import it.uniroma3.siwovernight.service.ImmagineService;
 import it.uniroma3.siwovernight.service.LocaleService;
@@ -29,12 +30,12 @@ public class LocaleController extends GlobalController{
     @Autowired
     private ImmagineService immagineService;
 
-    //restituisce la pagina del singolo locale
-	@GetMapping("/locali/{id}")
+    //risponde a una GET HTTP che avra' un URL del tipo /movie/1231
+	@GetMapping("/locali/{id}")//senza s
 	public String getLocale(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("locale", this.localeService.findById(id));
 		return "locale.html";
-	}
+	}//parametro id, viene convertito in Long e passato come parametro
 	
     @GetMapping("/locali")  //restituisce l'html con tutti i locali
     public String getLocali(Model model) {
@@ -57,7 +58,7 @@ public class LocaleController extends GlobalController{
     /*AGGIUNTA DEL LOCALE*/
     @GetMapping("/admin/addLocale")
     public String getFormNewLocale(Model model) {
-        //controllo dei permessi
+
         if(!getCredenziali().isAdmin()){
             return "errorPage.html";
         }
@@ -67,11 +68,17 @@ public class LocaleController extends GlobalController{
     }
 
     @PostMapping("/admin/addLocale")
-    public String postNewLocale(@ModelAttribute Locale locale, @RequestParam("immagine") MultipartFile i) throws IOException {
-        //gestione delle foto
-        this.immagineService.addFotoToLocale(locale, i);
-        //salvataggio del nuovo locale
+    public String postNewLocale(@ModelAttribute Locale locale,@RequestParam("immagine") MultipartFile immagine) throws IOException {
+        if (!immagine.isEmpty()) {
+            Immagine img = new Immagine();
+            img.setFileName(immagine.getOriginalFilename());
+            img.setImageData(immagine.getBytes());
+            locale.getImmagini().add(img);
+            immagineService.save(img);
+        }
+
         this.localeService.save(locale);
+        
         return "redirect:/locali/" + locale.getId();
     }
     /*FINE AGGIUNTA LOCALI*/

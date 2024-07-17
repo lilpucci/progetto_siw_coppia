@@ -8,6 +8,8 @@
 
 
     <body>
+        <div class="wrapper">
+
         <h1>Dettagli della Prenotazione</h1>
 
         <!--mostro i dettagli dell'evento-->
@@ -20,7 +22,7 @@
                 Prezzo: <span th:text="${evento.prezzo}">Prezzo</span>
             </div>
             <div class="message">
-                Data Evento: <span th:text="${#dates.format(evento.dataEvento, 'dd-MM-yyyy')}">Data Evento</span>
+                Data Evento: <span th:text="${evento.dataEvento}">Data Evento</span>
             </div>
         </div>
 
@@ -28,7 +30,7 @@
             <!-- casella per inserire il numero di biglietti -->
             <div>
                 <label for="num_biglietti">Quanti biglietti vuoi acquistare: </label>
-                <input type="number" name="num_biglietti" th:field="*{num_biglietti}" />
+                <input type="number" name="num_biglietti" th:field="*{num_biglietti}" step="1"/>
             </div>
 
             <button type="submit">Conferma Prenotazione!</button>
@@ -39,7 +41,7 @@
             <a th:href="@{/eventi/{id}(id=${evento.id})}">Annulla Prenotazione!</a>
         </div>
 
-
+    </div>
     </body>
 </html>
  

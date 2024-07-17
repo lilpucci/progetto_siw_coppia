@@ -11,11 +11,12 @@
 
     <div class="wrapper">
         <!-- Immagine dell'evento -->
-        <div th:if="${evento.hasImmagini()==true}">
-            <span th:each="immagine:${evento.immagini}">
-                <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" alt="Immagine evento"/> </span>
+        <div class="container">
+            <div th:if="${evento.hasImmagini()==true}">
+                <span th:each="immagine:${evento.immagini}">
+                    <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" alt="Immagine evento"/> </span>
+            </div>
         </div>
-
         <!-- Dettagli dell'evento -->
         <div th:if="${evento != null}">
             <h1 th:text="${evento.titoloEvento}">Titolo Evento</h1>
@@ -59,7 +60,7 @@
         <div th:if="${userDetails}">
             <!-- Link per aggiornare l'evento -->
             <div class="navigation">
-                <a th:href="@{/admin/updateEvento/{id}(id=${evento.id})}">Aggiorna Evento</a>
+                <a th:href="@{/admin/editEvento/{id}(id=${evento.id})}">Aggiorna Evento</a>
             </div>
 
             <!-- Cliccando qui vado alla form per prenotarmi a questo evento -->

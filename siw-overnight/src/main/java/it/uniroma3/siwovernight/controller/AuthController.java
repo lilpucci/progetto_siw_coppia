@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,7 +37,8 @@ public class AuthController {
     @Autowired
     private ImmagineService immagineService;
 
-
+     @Autowired
+    private PasswordEncoder passwordEncoder;
 
     //RESTITUISCE IL TEMPLATE DELL'HOME PAGE
     @GetMapping("/")
@@ -65,7 +67,7 @@ public class AuthController {
 
 
     //REGISTRAZIONE
-    @GetMapping("/register")
+    @GetMapping("/formRegister")
     public String getRegisterForm(Model model) {
         
         model.addAttribute("utente", new Utente());
@@ -100,13 +102,9 @@ public class AuthController {
         }
         return "auth/register.html";
     }
-
     @GetMapping("/search")
     public String getFormSearch(Model model) {
         return "formSearch.html";
     }
-    
-    
-
     //TODO far sparire i warning
 }

@@ -2,7 +2,9 @@ package it.uniroma3.siwovernight.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+//import java.time.LocalTime;
 import java.util.List;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,12 +19,13 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Future;
 
+
 @Entity
 public class Evento {
     
     /*ATTRIBUTI EVENTO*/
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     private String titoloEvento;
@@ -32,6 +35,9 @@ public class Evento {
     @DateTimeFormat(pattern = "dd-MM-YYYY")
     @Future
     private LocalDate dataEvento;
+    
+    //@DateTimeFormat(pattern = "hh:mm")
+    //private LocalTime orarioInizio;
 
     @ManyToOne
     @JoinColumn(name = "locale_id")
@@ -43,10 +49,12 @@ public class Evento {
         joinColumns = @JoinColumn(name = "evento_id"),
         inverseJoinColumns = @JoinColumn(name = "artista_id")
     )
+
+
     private List<Artista> artisti = new ArrayList<>();
-   
+
     @ElementCollection
-    private List<Immagine> immagini = new ArrayList<>();
+    private List<Immagine> immagini= new ArrayList<>();
 
     /*FINE ATTRIBUTI EVENTO*/
 
@@ -94,12 +102,13 @@ public class Evento {
     public void setPrezzo(float prezzo) {
         this.prezzo = prezzo;
     }
-    public List<Immagine> getImmagini() {
-        return immagini;
-    }
-    public void setImmagini(List<Immagine> immagini) {
-        this.immagini = immagini;
-    }
+    //public LocalTime getOrarioInizio() {
+    //    return orarioInizio;
+    //}
+    //public void setOrarioInizio(LocalTime orarioInizio) {
+    //    this.orarioInizio = orarioInizio;
+    //}
+    
     /*FINE GETTER & SETTER*/
 
     
@@ -146,18 +155,18 @@ public class Evento {
     public Evento() {
     }
 
-    public Evento(String titoloEvento, String descr, List<Immagine> immagini, float prezzo, LocalDate dataEvento, Locale locale, List<Artista> artisti){
+    public Evento(String titoloEvento, String descr, List<Immagine> immagini,float prezzo, LocalDate dataEvento, /*LocalTime orario,*/ Locale locale, List<Artista> artisti){
         this.titoloEvento = titoloEvento;
         this.descr = descr;
-        this.immagini = immagini;
         this.prezzo = prezzo;
         this.dataEvento = dataEvento;
+        //this.orarioInizio = orario;
         this.locale = locale;
+        this.immagini = immagini;
         this.artisti = artisti;
     }
     //TODO toString()
     /*FINE COSTRUTTORI*/
-
     /*METODI PER LE IMMAGINI*/
     public Immagine getFirstImage(){
         return this.immagini.get(0);
@@ -170,10 +179,15 @@ public class Evento {
             return null;
         }
     }
+    public List<Immagine> getImmagini() {
+        return immagini;
+    }
+    public void setImmagini(List<Immagine> immagini) {
+        this.immagini = immagini;
+    }
 
     public boolean hasImmagini(){
         return !this.immagini.isEmpty();
     }
-    
 
 }

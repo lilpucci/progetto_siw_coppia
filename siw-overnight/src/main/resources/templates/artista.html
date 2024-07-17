@@ -13,10 +13,12 @@
     
     <div class="wrapper" th:object="${artista}">
          <!-- Immagine dell'evento -->
-         <div th:if="${artista.hasImmagini()==true}">
-            <span th:each="immagine:${artista.immagini}">
-                <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" alt="Immagine artista"/> </span>
-        </div>
+         <div class="container" >
+            <div th:if="${artista.hasImmagini()==true}">
+                <span th:each="immagine:${artista.immagini}">
+                    <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" alt="Immagine artista"/> </span>
+            </div>
+        </div>    
         
         <h1 th:text="${artista.nome}">Nome</h1>
         

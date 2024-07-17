@@ -16,10 +16,11 @@
     <div class="wrapper" th:object="${locale}">
         <h1>Dettagli del Locale</h1>
 
-        <div th:if="${locale.hasImmagini() == true}">
+        <div class="container">
+        <div th:if="${locale.hasImmagini()}">
             <img th:src="'data:image/jpeg;base64,' + ${locale.getFirstImmagine().getBase64()}" alt="Immagine locale" class="locale-image" />
         </div>
-
+        </div>
         <!-- ATTRIBUTI DEL LOCALE -->
         <div>
             <h2 th:text="${locale.nomeLocale}">Nome Locale</h2>
@@ -43,10 +44,10 @@
             </ul>
         </div>
 
-        <!-- Controllo se l'utente è loggato -->
+        <!-- Controllo se l'utente è loggato e se è admin -->
         <div th:if="${userDetails}">
             <div>
-                <a th:href="@{/admin/newEvento/{id}(id=${locale.id})}">Aggiungi un evento al Locale</a>
+                <a th:href="@{/admin/formNewEvento/{id}(id=${locale.id})}">Aggiungi un evento al Locale</a>
             </div>
             <div>
                 <a th:href="@{/admin/deleteLocale/{id}(id=${locale.id})}">Elimina questo Locale</a>

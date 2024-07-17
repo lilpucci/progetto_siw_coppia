@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Prenotazione {
@@ -18,7 +17,10 @@ public class Prenotazione {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
+    //questi due si potrebbero togliere
+    //private String descrizione;
+    //private String url;
+
     private int num_biglietti;
         
     @ManyToOne
@@ -38,6 +40,19 @@ public class Prenotazione {
     public void setId(Long id) {
         this.id = id;
     }
+    /* 
+    public String getDescrizione() {
+        return descrizione;
+    }
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+    public String getUrl() {
+        return url;
+    }
+    public void setUrl(String url) {
+        this.url = url;
+    } */
     public Evento getEvento() {
         return evento;
     }
@@ -79,6 +94,17 @@ public class Prenotazione {
             return false;
         } else if (!id.equals(other.id))
         return false;
+        /* 
+        if (descrizione == null) {
+            if (other.descrizione != null)
+            return false;
+        } else if (!descrizione.equals(other.descrizione))
+        return false;
+        if (url == null) {
+            if (other.url != null)
+            return false;
+        } else if (!url.equals(other.url))
+        return false;*/
         if (evento == null) {
             if (other.evento != null)
             return false;

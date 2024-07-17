@@ -12,8 +12,9 @@
     </div>
     
     <div class="wrapper">
-        <h1 th:text="${prenotazione.id}">Codice Prenotazione</h1>
-        
+        <div class="message">
+            Codice Prenotazione: <span th:text="${prenotazione.id}">2000</span>
+        </div>
         <div class="message">
             Numero Biglietti: <span th:text="${prenotazione.num_biglietti}">2000</span>
         </div>
@@ -29,7 +30,7 @@
         </ul>
         
         <div>
-            <form class="navigation" th:action="@{/eliminaPrenotazione/{id}(id=${prenotazione.id})}" method="post">
+            <form class="navigation" th:action="@{/admin/eliminaPrenotazione/{id}(id=${prenotazione.id})}" method="post">
                 <input type="hidden" name="_method" value="delete"> <!-- Simula DELETE -->
                 <button type="submit">Elimina prenotazione</button>
             </form>

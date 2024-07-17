@@ -27,10 +27,11 @@ public class Artista {
     @NotBlank
     private String nome;
     
-    @ElementCollection
-    private List<Immagine> immagini = new ArrayList<>();
     
-    //TODO decidere se togliere data nascita per artista
+    @ElementCollection
+    private List<Immagine> immagini= new ArrayList<>();
+    
+    
     @Past
     @DateTimeFormat(pattern="dd-MM_yyyy")
     private LocalDate dataNascita;
@@ -44,7 +45,7 @@ public class Artista {
     public Long getId() {
         return id;
     }
-    public void setId(Long id){
+    public void setId(Long id) {
         this.id = id;
     }
     public String getNome() {
@@ -71,7 +72,7 @@ public class Artista {
     public void setEventi(List<Evento> eventi) {
         this.eventi = eventi;
     }
-    /*FINE GETTERS & ListTERS*/
+    /*FINE GETTERS & SETTERS*/
 
 
     /*EQUALS & HASHCODE*/
@@ -114,11 +115,6 @@ public class Artista {
         this.immagini = immagini;
     }
 
-    @Override
-    public String toString() {
-        return "Artista: " + nome;
-    }
-
     /*FINE COSTRUTTORI*/
     
     /*METODI PER LE IMMAGINI*/
@@ -133,11 +129,9 @@ public class Artista {
             return null;
         }
     }
-
+  
     public boolean hasImmagini(){
         return !this.immagini.isEmpty();
     }
-  
-
 }
     

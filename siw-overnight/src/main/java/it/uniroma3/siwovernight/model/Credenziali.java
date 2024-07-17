@@ -13,7 +13,8 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 public class Credenziali {
   
-    public static final String USER = "USER";
+    
+    public static final String UTENTE_REGISTRATO = "USER";
     public static final String ADMIN = "ADMIN";
 
     /*ATTRIBUTI CREDENTIALI*/
@@ -36,11 +37,9 @@ public class Credenziali {
     private Utente utente;
     /*FINE ATTRIBUTI CREDENTIALI*/
 
-    public Credenziali (){
-        
+    public Credenziali(){
+
     }
-
-
     /*EQUALS & HASHCODE*/
     @Override
     public int hashCode() {
@@ -81,8 +80,8 @@ public class Credenziali {
     }
 
     /*RESTITUISCONO I RUOLI*/
-    public static String getUser() {
-        return USER;
+    public static String getUtenteRegistrato() {
+        return UTENTE_REGISTRATO;
     }
 
     public static String getAdmin() {
