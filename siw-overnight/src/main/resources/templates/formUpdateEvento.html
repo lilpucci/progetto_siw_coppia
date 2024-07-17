@@ -30,28 +30,26 @@
                 <label for="dataEvento">Data Evento:</label>
                 <input type="date" id="dataEvento" th:field="*{dataEvento}" required>
             </div>
-
             <div class="form-group">
                 <label for="locale.nomeLocale">Locale:</label>
                 <input type="text" id="locale.nomeLocale" th:field="*{locale.nomeLocale}" required>
             </div>
-        
             <div class="form-group">
                 <label for="immagine">Immagine:</label>
-                <input type="file" id="immagine" name="immagine" accept="image/*" multiple/>
+                <input type="file" id="immagine" name="immagine" accept="image/*" multiple />
             </div>
-                <button type="submit">Aggiorna Evento</button>
-            </div>
+            <button type="submit">Aggiorna Evento</button>
         </form>
 
         <!-- Form per aggiungere un artista all'evento -->
-        <form th:action="@{/admin/addArtistiToEvento/{evento_id}(evento_id=${evento.id})}" enctype="multipart/form-data" th:object="${artista}" method="post">
+        <h2>Aggiungi Artista</h2>
+        <form th:action="@{/admin/addArtistiToEvento/{evento_id}(evento_id=${evento.id})}" method="post" th:object="${artista}">
             <div class="form-group">
-                <label for="nome">Nome:</label>
+                <label for="nome">Nome Artista:</label>
                 <input type="text" id="nome" th:field="*{nome}" required />
             </div>
             <div class="form-group">
-                <button type="submit">Conferma</button>
+                <button type="submit">Aggiungi Artista</button>
             </div>
         </form>
 

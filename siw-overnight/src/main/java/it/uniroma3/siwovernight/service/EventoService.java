@@ -1,5 +1,7 @@
 package it.uniroma3.siwovernight.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,7 @@ public class EventoService {
         return this.eventoRepository.findByTitoloEvento(nome);
     }
 
-    public Iterable<Evento> findByArtista(String nomeArtista){
+    public List<Evento> findByArtista(String nomeArtista){
         return this.eventoRepository.findByArtista(nomeArtista);
     }
     /*FINE RICERCHE */

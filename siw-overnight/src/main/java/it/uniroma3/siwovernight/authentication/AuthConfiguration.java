@@ -51,7 +51,7 @@ public class AuthConfiguration{
                         // chiunque (autenticato o no) puÃ² mandare richieste POST al punto di accesso per login e register
                         .requestMatchers(HttpMethod.POST, "/register", "/login","/artisti/**","/eventi/**","/searchArtista","/searchEvento","/searchLocale").permitAll()
                          // utenti registrati (cuochi) possono aggiungere nuovi ingredienti e nuove ricette e modificare e cancellare le proprie ricette
-                         .requestMatchers(HttpMethod.GET, "/prenotaEvento/**","/eliminaPrenotazione/**","/utente").hasAnyAuthority("USER")
+                         .requestMatchers(HttpMethod.GET, "/prenotaEvento/**","/eliminaPrenotazione/**","/utente","/prenotazione").hasAnyAuthority("USER")
                          .requestMatchers(HttpMethod.POST, "/prenotaEvento/**").hasAnyAuthority("USER") 
                          // solo gli utenti autenticati con ruolo ADMIN possono accedere a risorse con path /admin/**
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN")

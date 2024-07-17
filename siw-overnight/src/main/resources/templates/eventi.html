@@ -15,13 +15,13 @@
         <h1>Eventi</h1>
 
         <!-- Messaggio se non ci sono eventi -->
-        <div th:if="${eventi == null || eventi.isEmpty()}" class="message">
+        <div th:unless="${eventi}" class="message">
             Non ci sono Eventi nel sistema
         </div>
 
         <!-- Lista degli eventi -->
-        <ul class="ricette-list">
-            <li th:each="evento : ${eventi}" class="ricetta-item">
+        <ul class="eventi-list">
+            <li th:each="evento : ${eventi}" class="evento-item">
                 <a th:href="@{'/eventi/' + ${evento.id}}" th:text="${evento.titoloEvento}">Titolo Evento</a>
             </li>
         </ul>

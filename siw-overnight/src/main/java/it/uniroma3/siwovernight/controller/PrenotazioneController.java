@@ -27,6 +27,17 @@ public class PrenotazioneController extends GlobalController {
 	@Autowired
 	private EventoService eventoService;
 	
+	@GetMapping("/prenotazioni/{id}")
+    public String getPrenotazione(@PathVariable("id") Long id_p, Model model) {
+        model.addAttribute("prenotazione", this.prenotazioneService.findById(id_p));
+        return "prenotazione.html";
+    }
+
+    @GetMapping("/prenotazioni")
+    public String getprenotazioni(Model model) {
+        model.addAttribute("prenotazioni", this.prenotazioneService.findAll());
+        return "prenotazioni.html";
+    }
 
 	//TODO da testare se funziona la prenotazione
 	/*PORTA AL FORM PER LA NUOVA PRENOTAZIONE*/

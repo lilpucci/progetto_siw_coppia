@@ -3,6 +3,7 @@ package it.uniroma3.siwovernight.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siwovernight.model.Artista;
+import it.uniroma3.siwovernight.model.Evento;
 import it.uniroma3.siwovernight.model.Immagine;
 import it.uniroma3.siwovernight.service.ArtistaService;
+import it.uniroma3.siwovernight.service.EventoService;
 import it.uniroma3.siwovernight.service.ImmagineService;
 @Controller
 public class ArtistaController extends GlobalController{
@@ -26,6 +29,9 @@ public class ArtistaController extends GlobalController{
 	
 	@Autowired
 	private ImmagineService immagineService;
+
+	@Autowired 
+	private EventoService eventoService;
 	
 	//risponde a una GET HTTP che avrÃƒ  un URL del tipo /movie/1231
 	@GetMapping("/artisti/{id}")//senza s
@@ -45,6 +51,9 @@ public class ArtistaController extends GlobalController{
 
 	@GetMapping("/admin/formNewArtista")
 	public String formNewArtista(Model model) {
+		if(!getCredenziali().isAdmin()){
+			return "errorPage.html";
+		}
 		model.addAttribute("artista", new Artista());
 		return "formNewArtista.html";
 	}
@@ -68,19 +77,32 @@ public class ArtistaController extends GlobalController{
 	
 	@PostMapping("/admin/deleteArtista/{id}")
     public String deleteArtista(@PathVariable Long id) {
+		if(!getCredenziali().isAdmin()){
+			return "errorPage.html";
+		}
+		Artista a = this.artistaService.findById(id);
+		List<Evento> eventiArt = this.eventoService.findByArtista(a.getNome());
+		for(Evento e : eventiArt){
+			e.getArtisti().remove(a);
+		}
         artistaService.deleteById(id);
         return "redirect:/artisti"; // Redirect alla lista degli artisti dopo la cancellazione
     }
 
 	@GetMapping("/admin/editArtista/{id}")
 	public String getUpdateForm(@PathVariable Long id, Model model) {
-    Artista artista = artistaService.findById(id);
-    model.addAttribute("artista", artista); // Aggiunge l'oggetto 'artista' al modello
-    return "formUpdateArtista.html"; // Ritorna il nome del template da renderizzare
+		if(!getCredenziali().isAdmin()){
+			return "errorPage.html";
+		}
+		Artista artista = artistaService.findById(id);
+		model.addAttribute("artista", artista); // Aggiunge l'oggetto 'artista' al modello
+		return "formUpdateArtista.html"; // Ritorna il nome del template da renderizzare
 	}
 
-	@PostMapping("/admin/updateArtista/{id}")
-	public String updateArtista(@PathVariable("id") Long id, @ModelAttribute Artista artista) {
+	@PostMapping("/admin/editArtista/{id}")
+	public String updateArtista(@PathVariable("id") Long id, @ModelAttribute Artista artista,@RequestParam("immagine") MultipartFile immagine) throws IOException { 
+		artista.setImmagini(this.artistaService.findById(id).getImmagini());
+		this.immagineService.addFotoToArtista(artista, immagine);
     	artista.setId(id); // Imposta l'ID sulla artista per l'aggiornamento
     	this.artistaService.save(artista); // Salva l' artista aggiornato
     	return "redirect:/artisti/" + artista.getId(); // Redirect alla pagina del artista aggiornato
@@ -88,7 +110,7 @@ public class ArtistaController extends GlobalController{
 
 	@PostMapping("/searchArtista")
 	public String searchArtista(Model model, @RequestParam String nome) {
-		model.addAttribute("artiti", this.artistaService.findByNome(nome)); 
+		model.addAttribute("artisti", this.artistaService.findByNome(nome)); 
         return "artisti.html"; 
 	}
 

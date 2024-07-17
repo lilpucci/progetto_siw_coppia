@@ -14,12 +14,12 @@
     <div class="wrapper">
         <h1>Artisti:</h1>
 
-        <div class="message" th:if="${artisti == null || artisti.isEmpty()}">
+        <div th:unless="${artisti}" class="message">
             Non ci sono Artisti nel sistema
         </div>
 
-        <ul class="ricette-list">
-            <li class="ricetta-item" th:each="artista : ${artisti}">
+        <ul class="artisti-list">
+            <li class="artista-item" th:each="artista : ${artisti}">
                 <a th:href="@{'/artisti' + '/' + ${artista.id}}" th:text="${artista.nome}">
                     Nome Artista
                 </a>

@@ -130,6 +130,8 @@ public class Artista {
         }
     }
   
-
+    public boolean hasImmagini(){
+        return !this.immagini.isEmpty();
+    }
 }
     

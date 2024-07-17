@@ -12,8 +12,10 @@
     </div>
     
     <div class="wrapper" th:object="${artista}">
-        <div th:if="${artista.getFirstImmagine() != null}">
-            <img th:src="'data:image/jpeg;base64,' + ${artista.getFirstImmagine().getBase64()}" alt="Immagine Artista" class="artist-image"/>
+         <!-- Immagine dell'evento -->
+         <div th:if="${artista.hasImmagini()==true}">
+            <span th:each="immagine:${artista.immagini}">
+                <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" alt="Immagine artista"/> </span>
         </div>
         
         <h1 th:text="${artista.nome}">Nome</h1>
@@ -39,11 +41,11 @@
         <!-- Controllo se l'utente è loggato e se è admin -->
         <div th:if="${userDetails}">
             <div class="navigation">
-                <a th:href="@{/admin/updateArtista/{id}(id=${artista.id})}">Aggiorna dati artista</a>
+                <a th:href="@{/admin/editArtista/{id}(id=${artista.id})}">Aggiorna dati artista</a>
             </div>
 
             <form class="navigation" th:action="@{/admin/deleteArtista/{id}(id=${artista.id})}" method="post">
-                <input type="hidden" name="_method" value="post"> <!-- Simula DELETE -->
+                <input type="hidden" name="_method" value="delete"> <!-- Simula DELETE -->
                 <button type="submit">Elimina artista</button>
             </form>
         </div>
