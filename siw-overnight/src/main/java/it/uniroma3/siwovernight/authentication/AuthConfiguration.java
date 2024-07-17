@@ -54,8 +54,8 @@ public class AuthConfiguration{
                          .requestMatchers(HttpMethod.GET, "/prenotaEvento/**","/eliminaPrenotazione/**","/utente","/prenotazione").hasAnyAuthority("USER")
                          .requestMatchers(HttpMethod.POST, "/prenotaEvento/**").hasAnyAuthority("USER") 
                          // solo gli utenti autenticati con ruolo ADMIN possono accedere a risorse con path /admin/**
-                        .requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN","USER")
+                        .requestMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority("ADMIN","USER")
                         // tutti gli utenti autenticati possono accere alle pag
                         .anyRequest().authenticated())
                         
