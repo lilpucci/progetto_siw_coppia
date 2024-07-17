@@ -11,11 +11,12 @@
 
     <div class="wrapper">
         <!-- Immagine dell'evento -->
-        <div th:if="${evento.hasImmagini()==true}">
-            <span th:each="immagine:${evento.immagini}">
-                <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" alt="Immagine evento"/> </span>
+        <div class="container">
+            <div th:if="${evento.hasImmagini()==true}">
+                <span th:each="immagine:${evento.immagini}">
+                    <img th:src="'data:image/jpeg;base64,' + ${immagine.getBase64()}" alt="Immagine evento"/> </span>
+            </div>
         </div>
-
         <!-- Dettagli dell'evento -->
         <div th:if="${evento != null}">
             <h1 th:text="${evento.titoloEvento}">Titolo Evento</h1>
