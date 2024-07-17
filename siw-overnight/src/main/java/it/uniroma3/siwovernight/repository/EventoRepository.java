@@ -22,4 +22,6 @@ public interface EventoRepository extends CrudRepository<Evento,Long>{
     @Query("SELECT e FROM Evento e JOIN e.artisti a WHERE a.nome = :nomeArtista")
     public List<Evento> findByArtista (@Param("nomeArtista") String nomeArtista);
 
+    
+
 }

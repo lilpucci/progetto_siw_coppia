@@ -2,7 +2,7 @@
 package it.uniroma3.siwovernight.service;
 
 import java.time.LocalDate;
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,4 +50,12 @@ public class ArtistaService {
         this.artistaRepository.delete(Artista);
     }
     /*FINE CANCELLAZIONE */
+
+    public List<Artista> getUltimiNati(){
+        return this.artistaRepository.findLatestArtisti();
+    }
+
+    public int getCountArtista(){
+        return this.artistaRepository.countArtista();
+    }
 }    

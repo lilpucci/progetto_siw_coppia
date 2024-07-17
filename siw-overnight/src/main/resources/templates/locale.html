@@ -16,10 +16,11 @@
     <div class="wrapper" th:object="${locale}">
         <h1>Dettagli del Locale</h1>
 
+        <div class="container">
         <div th:if="${locale.hasImmagini()}">
             <img th:src="'data:image/jpeg;base64,' + ${locale.getFirstImmagine().getBase64()}" alt="Immagine locale" class="locale-image" />
         </div>
-
+        </div>
         <!-- ATTRIBUTI DEL LOCALE -->
         <div>
             <h2 th:text="${locale.nomeLocale}">Nome Locale</h2>
